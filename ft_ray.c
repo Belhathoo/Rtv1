@@ -35,11 +35,7 @@ t_vec   ray_fctn(t_ray r, float t)
     return res;
 }
 
-void    ft_print_vec(char *str,t_vec x)
-{
-    printf("%s =>  x: %.2f     y:%.2f    z:%.2f\n",str, x.e1,x.e2,x.e3);
-}
-void    ft_ray_tracer(t_object *objs, t_ptr *p, double *x, double *y)
+void    ft_ray_tracer(t_object *objs, t_ptr *p, double x, double y)
 {
     t_cam   cam;
     t_vec   d, vc;
@@ -49,14 +45,16 @@ void    ft_ray_tracer(t_object *objs, t_ptr *p, double *x, double *y)
     double u,v;
     r.t_max = 214855555558;
     r.t_min = 0;
-    u = (double)(*x / WIN_WIDTH); v=(double)(*y / WIN_WIDTH);
+    u = (double)(x / WIN_WIDTH);
+    v = (double)(y / WIN_WIDTH);
 
-    cam = cam_calcul(ft_vec(-2,2,1), ft_vec(0,0,-1), ft_vec(0,1,0), 90);
+    cam = cam_calcul(ft_vec(-2,2,1), ft_vec(0,0,-1), 90);
+    // cam = cam_calcul(ft_vec(0,0,3), ft_vec(0,0,0), 90);
     d = ft_plus(ft_minus(cam.lower_left_corner, cam.origin),\
-    ft_plus(ft_pro_k(cam.horizontal, u), \
+        ft_plus(ft_pro_k(cam.horizontal, u), \
         ft_pro_k(cam.vertical, v)));
     r = ft_ray(cam.origin, d);
     vc = ft_color(objs, r);
     color = RGBTOI(RGB(vc.e1), RGB(vc.e2), RGB(vc.e3));
-    ft_mlx_putpixel(p, *x, *y, color);
+    ft_mlx_putpixel(p, x, y, color);
 }

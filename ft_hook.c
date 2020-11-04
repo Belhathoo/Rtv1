@@ -16,10 +16,12 @@ int			ft_close(t_ptr *p)
 {
 	mlx_destroy_image(p->mlx, p->img);
 	mlx_destroy_window(p->mlx, p->win);
+	// ft_free_objects(p->o);
 	free(p->bpp);
 	free(p->size);
 	free(p->endian);
-	ft_free_objects(p->o);
+	free(p);
+	p = NULL;
     exit (0);
 }
 

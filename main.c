@@ -17,7 +17,7 @@ void		ft_free_objects(t_object *object)
 	t_object	*obj;
 	t_object	*tmp;
 
-	obj = object;
+    obj = object;
 	while (obj != NULL)
 	{
 		tmp = obj->next;
@@ -32,7 +32,7 @@ void		ft_init(t_ptr *p)
 	p->mlx = NULL;
 	p->data = NULL;
 	p->win = NULL;
-	p->bpp = malloc(4);
+   	p->bpp = malloc(4);
 	p->size = malloc(4);
 	p->endian = malloc(4);
 }
@@ -57,32 +57,32 @@ void    ft_draw(t_ptr *p)
         i = 0;
         while (i < WIN_WIDTH)
         {
-            ft_ray_tracer(p->o, p, &i, &j);
+            ft_ray_tracer(p->o, p, i, j);
             i++;   
         }
         j++;
     }
+    // ft_free_objects(p->o);
+    // p->o = NULL;
     mlx_put_image_to_window(p->mlx, p->win, p->img, 0, 0);
 }
 
-t_object    *ft_create_obj(void)
-{
-    t_object        *o; 
+void    ft_create_obj(t_ptr *p)
+{ 
     t_object        *tt = NULL;
 
-    if (!(o = (t_object*)malloc(sizeof(struct s_obj))))
-        return (NULL) ;
-    tt = o;
-    o->center = ft_vec(0, 0, -1);
-    o->size = 0.5;
-    if(!(o->next = (t_object*)malloc(sizeof(struct s_obj))))
-        return (NULL);
-    o = o->next;
-    o->center = ft_vec(0, -100.5, -1);
-    o->size = 100;
-    o->next = NULL;
-    o = tt;
-    return (o);
+    if (!(p->o = (t_object*)malloc(sizeof(struct s_obj))))
+        return ;
+    // tt = p->o;
+    p->o->center = ft_vec(0, 0, -1);
+    p->o->size = 0.5;
+    // if(!(p->o->next = (t_object*)malloc(sizeof(struct s_obj))))
+    //     return ;
+    // p->o = p->o->next;
+    // p->o->center = ft_vec(0, -101, -1);
+    // p->o->size = 100;
+    p->o->next = NULL;
+    // p->o = tt;
 }
 
 
@@ -95,7 +95,7 @@ int     main(int argc, char **argv)
         return (0);
    	ft_init(p);
 	ft_create_window(p);
-    p->o = ft_create_obj();
+    ft_create_obj(p);
     ft_draw(p);    
     mlx_hook(p->win, 17, 0, ft_close, p);
     mlx_hook(p->win, 2, 0, ft_deal_key, p);

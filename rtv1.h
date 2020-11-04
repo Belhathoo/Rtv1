@@ -92,9 +92,9 @@ double		ft_lengthsquared(t_vec a);
 
 t_ray   ft_ray(t_vec a, t_vec b);
 t_vec   ray_fctn(t_ray r, float t);
-void    ft_ray_tracer(t_object *o, t_ptr *p, double *x, double *y);
+void    ft_ray_tracer(t_object *o, t_ptr *p, double x, double y);
 
-t_cam   cam_calcul(t_vec lookfrom, t_vec lookat, t_vec vup, double fov);
+t_cam   cam_calcul(t_vec lookfrom, t_vec lookat, double fov);
 t_vec   ft_color(t_object *o, t_ray ray);
 
 int    hit_sphere(t_object *sphere, t_ray r, t_hit_record rec);
@@ -105,6 +105,3 @@ int			ft_deal_key(int key, t_ptr *p);
 
 
 void    ft_free_objects(t_object *o);
-
-
-void    ft_print_vec(char *str,t_vec x);
