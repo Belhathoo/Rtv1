@@ -64,6 +64,5 @@ int     ft_hit(t_object *o, t_ray r, t_hit_record rec)
         o = o->next;
     }
     o = tt;
-    tt = NULL;
     return (hit_anything);
 }

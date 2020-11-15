@@ -37,7 +37,7 @@ void		ft_init(t_ptr *p)
 	p->endian = malloc(4);
 }
 
-void	ft_create_window(t_ptr *p)
+void	ft_mlx_launch(t_ptr *p)
 {
 	p->mlx = mlx_init();
 	p->win = mlx_new_window(p->mlx, WIN_WIDTH, WIN_HEIGHT, "rtv1");
@@ -62,29 +62,10 @@ void    ft_draw(t_ptr *p)
         }
         j++;
     }
-    // ft_free_objects(p->o);
-    // p->o = NULL;
+    ft_free_objects(p->o);
+    p->o = NULL;
     mlx_put_image_to_window(p->mlx, p->win, p->img, 0, 0);
 }
-
-void    ft_create_obj(t_ptr *p)
-{ 
-    t_object        *tt = NULL;
-
-    if (!(p->o = (t_object*)malloc(sizeof(struct s_obj))))
-        return ;
-    // tt = p->o;
-    p->o->center = ft_vec(0, 0, -1);
-    p->o->size = 0.5;
-    // if(!(p->o->next = (t_object*)malloc(sizeof(struct s_obj))))
-    //     return ;
-    // p->o = p->o->next;
-    // p->o->center = ft_vec(0, -101, -1);
-    // p->o->size = 100;
-    p->o->next = NULL;
-    // p->o = tt;
-}
-
 
 
 int     main(int argc, char **argv)
@@ -94,8 +75,7 @@ int     main(int argc, char **argv)
    if (!(p = (struct s_ptr*)malloc(sizeof(struct s_ptr))))
         return (0);
    	ft_init(p);
-	ft_create_window(p);
-    ft_create_obj(p);
+	ft_mlx_launch(p);
     ft_draw(p);    
     mlx_hook(p->win, 17, 0, ft_close, p);
     mlx_hook(p->win, 2, 0, ft_deal_key, p);
