@@ -1,18 +1,23 @@
-# include "./libft/libft.h"
-# include <mlx.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <math.h>
-# include <float.h>
-# include <pthread.h>
+#include "./libft/libft.h"
+#include <mlx.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <math.h>
+#include <float.h>
+#include <pthread.h>
 
 # include <stdio.h>
 
-# define WIN_WIDTH  800
-# define WIN_HEIGHT 400
+#define WIN_WIDTH  800
+#define WIN_HEIGHT 400
 
-# define RGB(x) (int)(255.99 * x)
-# define RGBTOI(x, y, z) (x * 256 * 256 + y * 256 + z)
+#define RGB(x) (int)(255.99 * x)
+#define RGBTOI(x, y, z) (x * 256 * 256 + y * 256 + z)
+
+#define C_S "\t\"Object\": \"Sphere\""
+#define C_P "\t\"Object\": \"Plane\""
+#define C_CO "\t\"Object\": \"Cone\""
+#define C_CY "\t\"Object\": \"Cylinder\""
 
 
 # define MLX_KEY_ESC 53
@@ -63,6 +68,13 @@ typedef	struct	s_hit_record
 	t_vec		normal;
 }				t_hit_record;
 
+typedef struct	s_scene
+{
+	t_cam		*camera;
+	t_object	*obj;
+	// t_light		*light;
+}				t_scene;
+
 typedef struct	s_ptr
 {
 	void		*win;
@@ -72,7 +84,7 @@ typedef struct	s_ptr
 	int			*bpp;
 	int			*size;
 	int			*endian;
-	t_object	*o;
+	t_scene		*scene;
 }               t_ptr;
 
 
@@ -88,6 +100,9 @@ double		ft_dot(t_vec a, t_vec b);
 t_vec		ft_cross(t_vec a, t_vec b);
 double		ft_length(t_vec a);
 double		ft_lengthsquared(t_vec a);
+
+
+void		ft_parse(char **av, t_ptr *p);
 
 
 t_ray   ft_ray(t_vec a, t_vec b);

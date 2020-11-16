@@ -39,6 +39,7 @@ void		ft_init(t_ptr *p)
 
 void	ft_mlx_launch(t_ptr *p)
 {
+    ft_init(p);
 	p->mlx = mlx_init();
 	p->win = mlx_new_window(p->mlx, WIN_WIDTH, WIN_HEIGHT, "rtv1");
     p->img = mlx_new_image(p->mlx, WIN_WIDTH, WIN_HEIGHT);
@@ -74,7 +75,8 @@ int     main(int argc, char **argv)
 
    if (!(p = (struct s_ptr*)malloc(sizeof(struct s_ptr))))
         return (0);
-   	ft_init(p);
+    if (argc == 2)
+        ft_parser(argv[1], p);
 	ft_mlx_launch(p);
     ft_draw(p);    
     mlx_hook(p->win, 17, 0, ft_close, p);
