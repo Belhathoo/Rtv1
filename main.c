@@ -12,20 +12,6 @@
 
 #include "./rtv1.h"
 
-void		ft_free_objects(t_object *object)
-{
-	t_object	*obj;
-	t_object	*tmp;
-
-    obj = object;
-	while (obj != NULL)
-	{
-		tmp = obj->next;
-		free(obj);
-		obj = tmp;
-	}
-}
-
 void		ft_init(t_ptr *p)
 {
 	p->img = NULL;

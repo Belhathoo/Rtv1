@@ -48,8 +48,8 @@ void    ft_ray_tracer(t_object *objs, t_ptr *p, double x, double y)
     u = (double)(x / WIN_WIDTH);
     v = (double)(y / WIN_WIDTH);
 
-    cam = cam_calcul(ft_vec(-2,2,1), ft_vec(0,0,-1), 90);
-    // cam = cam_calcul(ft_vec(0,0,3), ft_vec(0,0,0), 90);
+    cam = cam_set(ft_vec(-2,2,1), ft_vec(0,0,-1), 90);
+    // cam = cam_set(ft_vec(0,0,3), ft_vec(0,0,0), 90);
     d = ft_plus(ft_minus(cam.lower_left_corner, cam.origin),\
         ft_plus(ft_pro_k(cam.horizontal, u), \
         ft_pro_k(cam.vertical, v)));

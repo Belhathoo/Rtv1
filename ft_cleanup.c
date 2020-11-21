@@ -10,8 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+# include "rtv1.h"
 
-void        ft_exit(char *msg, int er, t_ptr **p)
+void		ft_free_objects(t_object *object)
+{
+	t_object	*obj;
+	t_object	*tmp;
+
+    obj = object;
+	while (obj != NULL)
+	{
+		tmp = obj->next;
+		free(obj);
+		obj = tmp;
+	}
+}
+
+void        ft_fexit(char *msg, int er, t_ptr **p)
 {
     ft_putstr(ft_strjoin(err ? "error: " : "", display););
 	ft_free_objects((*p)->scene->object);

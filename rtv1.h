@@ -41,7 +41,7 @@ typedef	struct 	s_obj
 {
 	t_vec		center;
 	double		size;
-	// int			(*hit)();
+	int			(*hit)();
 	struct s_obj		*next;
 }				t_object;
 
@@ -109,7 +109,7 @@ t_ray   ft_ray(t_vec a, t_vec b);
 t_vec   ray_fctn(t_ray r, float t);
 void    ft_ray_tracer(t_object *o, t_ptr *p, double x, double y);
 
-t_cam   cam_calcul(t_vec lookfrom, t_vec lookat, double fov);
+t_cam   cam_set(t_vec lookfrom, t_vec lookat, double fov);
 t_vec   ft_color(t_object *o, t_ray ray);
 
 int    hit_sphere(t_object *sphere, t_ray r, t_hit_record rec);

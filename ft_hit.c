@@ -55,7 +55,7 @@ int     ft_hit(t_object *o, t_ray r, t_hit_record rec)
     tt = o;
     while (o)
     {
-        if (hit_sphere(o, r, tmp_rec))
+        if (obj->hit(o, r, tmp_rec))
         {
             hit_anything = 1;
             closest_so_far = tmp_rec.t;
