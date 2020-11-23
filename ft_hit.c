@@ -12,13 +12,13 @@
 
 # include "rtv1.h"
 
-int    hit_sphere(t_object *sphere, t_ray r, t_hit_record rec)
+int    ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record rec)
 {
     t_vec       oc;
     double      a, b, c, delta;
     double      tmp = 0;
 
-    oc = ft_minus(r.origin, sphere->center);
+    oc = ft_minus(r.origin, sphere->pos);
     a = ft_dot(r.dir, r.dir);
     b = 2 * ft_dot(oc, r.dir);
     c = ft_dot(oc, oc) - sphere->size*sphere->size;
@@ -30,7 +30,7 @@ int    hit_sphere(t_object *sphere, t_ray r, t_hit_record rec)
         {
             rec.t = tmp;
             rec.p = ray_fctn(r, rec.t);
-            rec.normal = ft_div_k(ft_minus(rec.p, sphere->center), sphere->size);
+            rec.normal = ft_div_k(ft_minus(rec.p, sphere->pos), sphere->size);
             return (1);
         }
         tmp =  (-b + sqrt(delta)) / (2 * a);
@@ -38,7 +38,7 @@ int    hit_sphere(t_object *sphere, t_ray r, t_hit_record rec)
         {
             rec.t = tmp;
             rec.p = ray_fctn(r, rec.t);
-            rec.normal = ft_div_k(ft_minus(rec.p, sphere->center), sphere->size);
+            rec.normal = ft_div_k(ft_minus(rec.p, sphere->pos), sphere->size);
             return (1);
         }
     }
@@ -55,7 +55,7 @@ int     ft_hit(t_object *o, t_ray r, t_hit_record rec)
     tt = o;
     while (o)
     {
-        if (obj->hit(o, r, tmp_rec))
+        if (o->hit(o, r, tmp_rec))
         {
             hit_anything = 1;
             closest_so_far = tmp_rec.t;

@@ -26,12 +26,26 @@ void		ft_free_objects(t_object *object)
 	}
 }
 
-void        ft_fexit(char *msg, int er, t_ptr **p)
+void		ft_free_lights(t_light *light)
 {
-    ft_putstr(ft_strjoin(err ? "error: " : "", display););
-	ft_free_objects((*p)->scene->object);
-	ft_free_lights((*p)->scene->light);
-	free((*p)->scene);
-	free(*p);
+	t_light		*l;
+	t_light		*tmp;
+
+	l = light;
+	while (l != NULL)
+	{
+		tmp = l->next;
+		free(l);
+		l = tmp;
+	}
+}
+
+void        ft_fexit(char *msg, int err, t_ptr **p)
+{
+    ft_putstr(ft_strjoin(err ? "error: " : "", msg));
+	// ft_free_objects((*p)->scene->obj);
+	// ft_free_lights((*p)->scene->light);
+	// free((*p)->scene);
+	// free(*p);
 	exit(0);
 }

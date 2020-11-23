@@ -1,10 +1,9 @@
 
 NAME = rtv1
 
-#SRCS = main.c ft_draw.c ft_events_1.c ft_events_2.c ft_get_data.c ft_hit.c
-#SRCS += ft_init.c ft_lighting.c ft_parser.c ft_process.c ft_ray.c ft_rotate.c
-#SRCS += ft_ui_1.c ft_ui_2.c ft_vector1.c ft_vector2.c ft_vector3.c ft_color.c
 SRCS = main.c ft_vec.c ft_ray.c ft_cam.c ft_hit.c ft_hook.c
+SRCS += ft_parse.c ft_parse1.c ft_parse2.c ft_cleanup.c
+SRCS += ft_rotate.c
 SRC = $(SRCS:%=./srcs/%)
 
 HEADER = headers
@@ -27,12 +26,12 @@ endif
 #CFLAGS = -Wall -Wextra -Werror
 LIBFT = ./libft/ -lft
 THREAD = -lpthread
-MYFLAG =  $(MLX)  $(THREAD)#-L $(LIBFT)
+MYFLAG =  $(MLX)  $(THREAD) -L $(LIBFT)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	#@make -C libft
+	@make -C libft
 	@gcc $(CFLAGS) -o $(NAME) $^ $(MYFLAG)
 	@echo "$(BUILD_PRINT)"
 

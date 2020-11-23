@@ -12,35 +12,84 @@
 
 # include "rtv1.h"
 
-void		ft_do_rot(t_ptr *p, t_vector *ret, char **each)
+int		ft_twodimlen(char **twodim)
+{
+	int		s;
+
+	s = 0;
+	while (*twodim++)
+		s++;
+	return (s);
+}
+
+void	ft_free_twodim(char **to_free)
+{
+	int		i;
+
+	i = 0;
+	while (to_free[i])
+	{
+		free(to_free[i]);
+		i++;
+	}
+	free(to_free);
+}
+
+double		ft_atod(char *str)
+{
+	double		nbr;
+	int			i;
+	double		chfr;
+	static int	signe;
+
+	nbr = (double)ft_atoi(str);
+	i = 0;
+	chfr = 10;
+	while ((str[i] == '\n') || (str[i] == ' ') || (str[i] == '\t')
+			|| (str[i] == '\f') || (str[i] == '\v') || (str[i] == '\r'))
+		i++;
+	signe = str[i] == '-' ? 1 : 0;
+	i = ((str[i] == '-') || (str[i] == '+')) ? i + 1 : i;
+	while (str[i] && str[i++] != '.')
+		i = i + 0;
+	while (str[i] && str[i] >= 48 && str[i] <= 57)
+	{
+		nbr = nbr >= 0 && !signe ? nbr + (double)(str[i++] - 48) / chfr :
+			nbr - (double)(str[i++] - 48) / chfr;
+		chfr *= 10;
+	}
+	return (nbr);
+}
+
+void		ft_do_rot(t_ptr *p, t_vec *ret, char **each)
 {
 	double		theta;
 
 	theta = ft_atod(each[3]);
 	if (theta < -180.0 || theta > 180.0 || ft_strlen(each[4]) != 1
-			|| AXIS(each[4][0]))
+		|| ((each[4][0] != 'x') && (each[4][0] != 'y') && (each[4][0] != 'z')))
 	{
 		ft_free_twodim(each);
-		ft_free_exit("Wrong rotation angle detected or axes type\n", 1, &p);
+		ft_fexit("Wrong rotation angle detected or axes type\n", 1, &p);
 	}
-	ret->v1 = ft_atod(each[0]);
-	ret->v2 = ft_atod(each[1]);
-	ret->v3 = ft_atod(each[2]);
-	*ret = ft_normalize(*ret);
+	ret->e1 = ft_atod(each[0]);
+	ret->e2 = ft_atod(each[1]);
+	ret->e3 = ft_atod(each[2]);
+	*ret = ft_unit_vec(*ret);
 	if (theta != 0.0)
 	{
 		if (each[4][0] == 'x')
-			*ret = ft_rot_x(*ret, DEG_TO_RAD(theta));
+			*ret = ft_rot_x(*ret, (theta * M_PI / 180.0));
 		else if (each[4][0] == 'y')
-			*ret = ft_rot_y(*ret, DEG_TO_RAD(theta));
+			*ret = ft_rot_y(*ret, (theta * M_PI / 180.0));
 		else
-			*ret = ft_rot_z(*ret, DEG_TO_RAD(theta));
+			*ret = ft_rot_z(*ret, (theta * M_PI / 180.0));
 	}
 }
 
-t_vector	ft_linetorot(t_ptr *p, char **line, int free_it)
+t_vec	ft_linetorot(t_ptr *p, char **line, int free_it)
 {
-	t_vector	ret;
+	t_vec	ret;
 	char		**each;
 	char		*str;
 
@@ -56,15 +105,15 @@ t_vector	ft_linetorot(t_ptr *p, char **line, int free_it)
 	if (free_it)
 		free(*line);
 	if (ft_twodimlen(each) != 5)
-		ft_free_exit("must be five values for Rotation data\n", 1, &p);
+		ft_fexit("Must be five values for Rotation Data\n", 1, &p);
 	ft_do_rot(p, &ret, each);
 	ft_free_twodim(each);
 	return (ret);
 }
 
-t_vector	ft_linetovec(t_ptr *p, char **line, int free_it)
+t_vec	ft_linetovec(t_ptr *p, char **line, int free_it)
 {
-	t_vector	ret;
+	t_vec	ret;
 	char		**each;
 	char		*str;
 
@@ -80,17 +129,17 @@ t_vector	ft_linetovec(t_ptr *p, char **line, int free_it)
 	if (free_it)
 		free(*line);
 	if (ft_twodimlen(each) != 3)
-		ft_free_exit("must be three values for Vectors data\n", 1, &p);
-	ret.v1 = ft_atod(each[0]);
-	ret.v2 = ft_atod(each[1]);
-	ret.v3 = ft_atod(each[2]);
+		ft_fexit("must be three values for Vectors data\n", 1, &p);
+	ret.e1 = ft_atod(each[0]);
+	ret.e2 = ft_atod(each[1]);
+	ret.e3 = ft_atod(each[2]);
 	ft_free_twodim(each);
 	return (ret);
 }
 
-t_color		ft_linetocol(t_ptr *p, char **line, int free_it)
+t_vec		ft_linetocol(t_ptr *p, char **line, int free_it)
 {
-	t_color		ret;
+	t_vec		ret;
 	char		**each;
 	char		*str;
 
@@ -106,10 +155,10 @@ t_color		ft_linetocol(t_ptr *p, char **line, int free_it)
 	if (free_it)
 		free(*line);
 	if (ft_twodimlen(each) != 3)
-		ft_free_exit("Must be three values for Colors data\n", 1, &p);
-	ret.r = ft_atod(each[0]);
-	ret.g = ft_atod(each[1]);
-	ret.b = ft_atod(each[2]);
+		ft_fexit("Must be three values for Colors data\n", 1, &p);
+	ret.e1 = ft_atod(each[0]);
+	ret.e2 = ft_atod(each[1]);
+	ret.e3 = ft_atod(each[2]);
 	ft_free_twodim(each);
 	return (ret);
 }
@@ -132,7 +181,7 @@ double		ft_linetod(t_ptr *p, char **line, int free_it)
 	if (free_it)
 		free(*line);
 	if (ft_twodimlen(each) != 1)
-		ft_free_exit("must be one value for such data\n", 1, &p);
+		ft_fexit("must be one value for such data\n", 1, &p);
 	ret = ft_atod(each[0]);
 	ft_free_twodim(each);
 	return (ret);
