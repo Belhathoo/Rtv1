@@ -70,11 +70,11 @@ void			ft_add_object(t_ptr *p, int fd, char **line, int t)
 {
 	t_object		*obj;
 	t_object		*tmp;
-	printf("LOLO\n");
 
 	if (!(obj = (struct s_obj*)malloc(sizeof(struct s_obj))) && t < 0)
 		ft_fexit("Cannot allocate\n", 1, &p);
-	tmp = p->scene->obj;
+	//tmp = p->scene->obj;
+	tmp = NULL;
 	if (ft_strcmp(*line, C_S) && ft_strcmp(*line, C_CO) && ft_strcmp(*line, C_P)
 			&& ft_strcmp(*line, C_CY) && FR(*line, 1))
 		ft_fexit("object syntax - undefined object\n", 1, &p);

@@ -88,14 +88,16 @@ void			ft_get_data(t_ptr *p, int fd)
 	char			*line;
 
 	get_next_line(fd, &line);
+	if(!(p->scene = (struct s_scene*)malloc(sizeof(struct s_scene))))
+		ft_fexit("Cannot allocate\n", 1, &p);;
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (!ft_strncmp(line, "\t\"Camera\":", 10))
 			ft_add_camera(p, fd, &line, cam_nbr++);
-		else if (!ft_strncmp(line, "\t\"Light\":", 9))
-			ft_add_light(p, fd, &line);
 		else if (!ft_strncmp(line, "\t\"Object\": ", 11))
 			ft_add_object(p, fd, &line, obj_nbr++); 
+		else if (!ft_strncmp(line, "\t\"Light\":", 9))
+			ft_add_light(p, fd, &line);
 		else if (!ft_strncmp(line, "]", 1))
 			break ;
 		else

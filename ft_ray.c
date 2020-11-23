@@ -43,12 +43,14 @@ void    ft_ray_tracer(t_object *objs, t_ptr *p, double x, double y)
    
     int color;
     double u,v;
+   
     r.t_max = 214855555558;
     r.t_min = 0;
     u = (double)(x / WIN_WIDTH);
     v = (double)(y / WIN_WIDTH);
 
-    cam = cam_set(ft_vec(-2,2,1), ft_vec(0,0,-1), 90);
+    cam = p->scene->camera;
+    // cam = cam_set(ft_vec(-2,2,1), ft_vec(0,0,-1), 90);
     // cam = cam_set(ft_vec(0,0,3), ft_vec(0,0,0), 90);
     d = ft_plus(ft_minus(cam.lower_left_corner, cam.origin),\
         ft_plus(ft_pro_k(cam.horizontal, u), \

@@ -28,7 +28,6 @@
 # define AXIS(x) (x != 'x' && x != 'y' && x != 'z')
 
 
-
 # define FR(x, y) ({free(x); y;})
 # define C_S "\t\"Object\": \"Sphere\""
 # define C_P "\t\"Object\": \"Plane\""
@@ -81,8 +80,8 @@ typedef struct		s_camera
 
 typedef	struct		s_l
 {
-	t_vec		pos;
-	t_vec		color;
+	t_vec			pos;
+	t_vec			color;
 	double			intensity;
 	struct s_l		*next;
 }					t_light;

@@ -21,8 +21,8 @@ int    ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record rec)
     oc = ft_minus(r.origin, sphere->pos);
     a = ft_dot(r.dir, r.dir);
     b = 2 * ft_dot(oc, r.dir);
-    c = ft_dot(oc, oc) - sphere->size*sphere->size;
-    delta = b*b - 4*a*c;
+    c = ft_dot(oc, oc) - pow(sphere->size, 2);
+    delta = b * b - 4 * a * c;
     if (delta > 0)
     {
         tmp =  (-b - sqrt(delta)) / (2 * a);
@@ -52,17 +52,20 @@ int     ft_hit(t_object *o, t_ray r, t_hit_record rec)
     double          closest_so_far = r.t_max;
     t_object        *tt = NULL;
 
-    tt = o;
-    while (o)
-    {
-        if (o->hit(o, r, tmp_rec))
-        {
-            hit_anything = 1;
-            closest_so_far = tmp_rec.t;
-            rec = tmp_rec;
-        }
-        o = o->next;
-    }
-    o = tt;
+    hit_anything = (ft_hit_sphere(o, r, rec)) ? 1 : 0;
+    // tt = o;
+    // while (o)
+    // {
+    //     // if (ft_hit_sphere(o, r, rec))
+    //     if (o->hit(o, r, tmp_rec))
+    //     {
+    //         printf("OBJ: %s\n",o->name);
+    //         hit_anything = 1;
+    //         closest_so_far = tmp_rec.t;
+    //         rec = tmp_rec;
+    //     }
+    //     o = o->next;
+    // }
+    // o = tt;
     return (hit_anything);
 }

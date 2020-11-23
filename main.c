@@ -49,7 +49,6 @@ void    ft_draw(t_ptr *p)
         }
         j++;
     }
-    // p->scene->obj = NULL;
     mlx_put_image_to_window(p->mlx, p->win, p->img, 0, 0);
 }
 
@@ -65,10 +64,17 @@ int     main(int argc, char **argv)
     else
         return 0;
         // ft_fexit("ARGS", 1, &p);
-    // ft_mlx_launch(p);
-    // ft_draw(p);    
-    // mlx_hook(p->win, 17, 0, ft_close, p);
-    // mlx_hook(p->win, 2, 0, ft_deal_key, p);
-    // mlx_loop(p->mlx);
+    t_object *o;
+    o = p->scene->obj;
+    while(o)
+    {
+        printf("NAME:\t%s\n", o->name);
+        o = (o->next) ?  o->next : NULL;
+    }
+    ft_mlx_launch(p);
+    ft_draw(p);    
+    mlx_hook(p->win, 17, 0, ft_close, p);
+    mlx_hook(p->win, 2, 0, ft_deal_key, p);
+    mlx_loop(p->mlx);
     return (0);
 }
