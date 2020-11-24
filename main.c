@@ -62,8 +62,7 @@ int     main(int argc, char **argv)
     if (argc == 2)
         ft_parser(argv[1], p);
     else
-        return 0;
-        // ft_fexit("ARGS", 1, &p);
+        ft_fexit("usage: ./rtv1 scene_file\n", 0, &p);
     t_object *o;
     o = p->scene->obj;
     while(o)

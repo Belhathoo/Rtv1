@@ -28,7 +28,7 @@
 # define AXIS(x) (x != 'x' && x != 'y' && x != 'z')
 
 
-# define FR(x, y) ({free(x); y;})
+// # define FR(x, y) ({free(x); y;})
 # define C_S "\t\"Object\": \"Sphere\""
 # define C_P "\t\"Object\": \"Plane\""
 # define C_CO "\t\"Object\": \"Cone\""
@@ -152,12 +152,13 @@ void		ft_ray_tracer(t_object *o, t_ptr *p, double x, double y);
 t_cam		cam_set(t_vec lookfrom, t_vec lookat, double fov);
 t_vec		ft_color(t_object *o, t_ray ray);
 
-int			ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record rec);
-int			ft_hit(t_object *o, t_ray r, t_hit_record rec);
+int			ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record *rec);
+int			ft_hit(t_object *o, t_ray r, t_hit_record *rec);
 
 int			ft_close(t_ptr *p);
 int			ft_deal_key(int key, t_ptr *p);
 
 
-void    ft_free_objects(t_object *o);
-void        ft_fexit(char *msg, int er, t_ptr **p);
+int			ft_fr(char **str);
+void		ft_free_objects(t_object *o);
+void		ft_fexit(char *msg, int er, t_ptr **p);

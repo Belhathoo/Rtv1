@@ -12,6 +12,17 @@
 
 # include "rtv1.h"
 
+int			ft_fr(char **str)
+{
+	if (**str)
+	{
+		free (*str);
+		ft_strdel(str);
+		return (1);
+	}
+	return (0);
+}
+
 void		ft_free_objects(t_object *object)
 {
 	t_object	*obj;
@@ -43,9 +54,9 @@ void		ft_free_lights(t_light *light)
 void        ft_fexit(char *msg, int err, t_ptr **p)
 {
     ft_putstr(ft_strjoin(err ? "error: " : "", msg));
-	// ft_free_objects((*p)->scene->obj);
-	// ft_free_lights((*p)->scene->light);
-	// free((*p)->scene);
-	// free(*p);
+	ft_free_objects((*p)->scene->obj);
+	ft_free_lights((*p)->scene->light);
+	free((*p)->scene);
+	free(*p);
 	exit(0);
 }

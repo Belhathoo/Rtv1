@@ -90,6 +90,8 @@ void			ft_get_data(t_ptr *p, int fd)
 	get_next_line(fd, &line);
 	if(!(p->scene = (struct s_scene*)malloc(sizeof(struct s_scene))))
 		ft_fexit("Cannot allocate\n", 1, &p);;
+	p->scene->obj = NULL;
+	p->scene->light = NULL;
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (!ft_strncmp(line, "\t\"Camera\":", 10))
@@ -102,7 +104,7 @@ void			ft_get_data(t_ptr *p, int fd)
 			break ;
 		else
 			ft_fexit("unexpected data\n", 1, &p);
-		// free(line);
+		free(line);
 	}
 	if (cam_nbr == 0 || obj_nbr == 0)
 		ft_fexit("Missing Data - Minimum \"1 camera & 1 object\"\n", 1, &p);
