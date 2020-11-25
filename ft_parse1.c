@@ -22,15 +22,15 @@ void			ft_add_camera(t_ptr *p, int fd, char **line, int t)
 	if (get_next_line(fd, line) > 0 && ft_strcmp(*line, "\t{") && ft_fr(line))
 		ft_fexit("Camera syntax - near to {\n", 1, &p);
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"lookfrom\": \""
-					, 15) || line[0][ft_strlen(*line) - 1] != '"'))
+				, 15) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Camera syntax - lookfrom\n", 1, &p);
 	cam.origin = ft_linetovec(p, line, 1);
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"lookat\": \""
-					, 13) || line[0][ft_strlen(*line) - 1] != '"'))
+				, 13) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Camera syntax - lookat\n", 1, &p);
 	cam.lookat = ft_linetovec(p, line, 1);
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"fov\": \""
-					, 10) || line[0][ft_strlen(*line) - 1] != '"'))
+				, 10) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Camera syntax - fov\n", 1, &p);
 	cam.fov = ft_linetod(p, line, 1);
 	if (get_next_line(fd, line) > 0 && ft_strcmp(*line, "\t}") && ft_fr(line))
@@ -43,23 +43,24 @@ void			ft_get_object(t_ptr *p, t_object *obj, int fd, char **line)
 	if (get_next_line(fd, line) > 0 && ft_strcmp(*line, "\t{") && ft_fr(line))
 		ft_fexit("Object syntax - near to {\n", 1, &p);
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"position\": \""
-					, 15) || line[0][ft_strlen(*line) - 1] != '"'))
+				, 15) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 1st param position\n", 1, &p);
 	obj->pos = ft_linetovec(p, line, 1);
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"rotation\": \""
-					, 15) || line[0][ft_strlen(*line) - 1] != '"'))
+				, 15) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 2nd param rotation\n", 1, &p);
 	obj->rot = ft_unit_vec(ft_linetorot(p, line, 1));
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line,
-		"\t\t\"translation\": \"", 18) || line[0][ft_strlen(*line) - 1] != '"'))
+						"\t\t\"translation\": \"", 18) ||
+						line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 3rd param translation\n", 1, &p);
 	obj->pos = ft_plus(obj->pos, ft_linetovec(p, line, 1));
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"color\": \""
-					, 12) || line[0][ft_strlen(*line) - 1] != '"'))
+				, 12) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 4th param color\n", 1, &p);
 	obj->color = ft_linetocol(p, line, 1);
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"size\": \""
-					, 11) || line[0][ft_strlen(*line) - 1] != '"'))
+				, 11) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 5th param size\n", 1, &p);
 	obj->size = ft_linetod(p, line, 1);
 	if (get_next_line(fd, line) > 0 && ft_strcmp(*line, "\t}") && ft_fr(line))
@@ -90,7 +91,7 @@ void			ft_add_object(t_ptr *p, int fd, char **line, int t)
 	obj->next = tmp;
 }
 
-double		ft_clamping(double value)
+double			ft_clamping(double value)
 {
 	if (value < 0.0)
 		value = 0.0;

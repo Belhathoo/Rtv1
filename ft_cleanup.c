@@ -16,8 +16,8 @@ int			ft_fr(char **str)
 {
 	if (**str)
 	{
-		free (*str);
-		ft_strdel(str);
+		(*str) ? free(*str) : 0;
+		(str) ? ft_strdel(str) : 0;
 		return (1);
 	}
 	return (0);
@@ -53,10 +53,10 @@ void		ft_free_lights(t_light *light)
 
 void        ft_fexit(char *msg, int err, t_ptr **p)
 {
-    ft_putstr(ft_strjoin(err ? "error: " : "", msg));
-	ft_free_objects((*p)->scene->obj);
-	ft_free_lights((*p)->scene->light);
-	free((*p)->scene);
-	free(*p);
+    // ft_putstr(ft_strjoin(err ? "error: " : "", msg));
+	// ft_free_objects((*p)->scene->obj);
+	// ft_free_lights((*p)->scene->light);
+	// free((*p)->scene);
+	// free(*p);
 	exit(0);
 }

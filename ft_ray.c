@@ -44,8 +44,6 @@ void    ft_ray_tracer(t_object *objs, t_ptr *p, double x, double y)
     int color;
     double u,v;
    
-    r.t_max = 214855555558;
-    r.t_min = 0;
     u = (double)(x / WIN_WIDTH);
     v = (double)(y / WIN_WIDTH);
 
