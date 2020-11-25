@@ -63,23 +63,28 @@ int			ft_check_brackets(char *s)
 	return (s[0] && s[0] == '[' && s[i - 2] && s[i - 2] == ']' ? b : 0);
 }
 
-// void		ft_check_data(t_ptr *p)
-// {
-// 	t_object	*tmp;
+void		ft_check_data(t_ptr *p)
+{
+	t_object	*tmp;
+	double		c[3];
 
-// 	tmp = p->scene->object;
-// 	if (p->scene->cam.fov < 0.0 || p->scene->cam.fov > 180.0)
-// 		ft_free_exit("wrong field of view value\n", 1, &p);
-// 	while (tmp)
-// 	{
-// 		if (tmp->size < 0.001 && tmp->hit != ft_hit_plane)
-// 			ft_free_exit("wrong size detected\n", 1, &p);
-// 		if (COL_TYPE(tmp->color.e1) || COL_TYPE(tmp->color.e2)
-// 				|| COL_TYPE(tmp->color.e3))
-// 			ft_free_exit("Wrong color format detected\n", 1, &p);
-// 		tmp = tmp->next;
-// 	}
-// }
+	c[0] = tmp->color.e1;
+	c[1] = tmp->color.e2;
+	c[2] = tmp->color.e3;
+
+	tmp = p->scene->obj;
+	if (p->scene->camera.fov < 0.0 || p->scene->camera.fov > 180.0)
+		ft_fexit("Wrong field of view value\n", 1, &p);
+	while (tmp)
+	{
+		if (tmp->size < 0.001 /*&& tmp->hit != ft_hit_plane*/)
+			ft_fexit("wrong size detected\n", 1, &p);
+		if ((c[0] < 0.0 || c[0] > 1.0) || (c[1] < 0.0 || c[1] > 1.0)
+				|| (c[2] < 0.0 || c[2] > 1.0))
+			ft_fexit("Wrong color format detected\n", 1, &p);
+		tmp = tmp->next;
+	}
+}
 
 void			ft_get_data(t_ptr *p, int fd)
 {
@@ -131,5 +136,5 @@ void        ft_parser(char *file, t_ptr *p)
 	fd = open(file, O_RDONLY);
 	ft_get_data(p, fd);
 	close(fd);
-	// ft_check_data(p);
+	ft_check_data(p);
 }
