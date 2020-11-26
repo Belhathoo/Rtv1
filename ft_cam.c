@@ -49,12 +49,12 @@ t_cam   cam_set(t_vec lookfrom, t_vec lookat, double fov)
     // cam.u =  ft_unit_vec(ft_cross(cam.w, vup));
     // cam.v = ft_cross(cam.u, cam.w);
     // cam.origin = lookfrom;
-    // cam.horizontal = ft_pro_k(cam.u, 2.0 * cam.half_w);
-    // cam.vertical = ft_pro_k(cam.v, 2.0 * cam.half_h);
+    // cam.horizontal = ft_pro_k(cam.u, 4.0 * cam.half_w);
+    // cam.vertical = ft_pro_k(cam.v, 4.0 * cam.half_h);
     // llc = ft_minus(cam.origin, ft_plus(ft_pro_k(cam.v, cam.half_h),\
     //     ft_pro_k(cam.u, cam.half_w)));
     // cam.lower_left_corner = ft_plus(llc, cam.w);
-    // cam.lower_left_corner = ft_vec(- cam.half_w, - cam.half_h, -1); 
+    // // cam.lower_left_corner = ft_vec(- cam.half_w, - cam.half_h, -1); 
     cam.origin = ft_vec(0,0,0);
     cam.horizontal =  ft_vec(4,0,0);
     cam.vertical = ft_vec(0,4,0);

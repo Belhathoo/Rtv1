@@ -63,13 +63,13 @@ int     main(int argc, char **argv)
         ft_parser(argv[1], p);
     else
         ft_fexit("usage: ./rtv1 scene_file\n", 0, &p);
-    t_object *o;
-    o = p->scene->obj;
-    while(o)
-    {
-        printf("NAME:\t%s\n", o->name);
-        o = (o->next) ?  o->next : NULL;
-    }
+    // t_object *o;
+    // o = p->scene->obj;
+    // while(o)
+    // {
+    //     printf("NAME:\t%s\n", o->name);
+    //     o = o->next;
+    // }
     ft_mlx_launch(p);
     ft_draw(p);    
     mlx_hook(p->win, 17, 0, ft_close, p);
