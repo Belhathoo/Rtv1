@@ -19,10 +19,7 @@ t_vec   ft_color(t_object *objs, t_ray ray)
     double   d;
     t_vec   res;
     
-    // if (!(rec = (struct s_hit_record *)malloc(sizeof(struct s_hit_record ))))
-        // return (ft_vec(0,0,0));
-    d = ft_hit(objs, ray, &rec);
-    if (d > 0)
+    if ((d = ft_hit(objs, ray, &rec)) > 0)
     {
         res = ft_unit_vec(ft_minus(ray_fctn(ray, d), ft_vec(0, 0, -1)));
         return (ft_pro_k(ft_plus(rec.normal, ft_vec(1,1,1)), 0.5));
@@ -40,24 +37,22 @@ t_cam   cam_set(t_vec lookfrom, t_vec lookat, double fov)
     t_vec   vup;
     t_vec   llc;
 
-    // vup = ft_unit_vec(ft_vec(0.001, 1, 0.001));
-    // theta = fov * M_PI / 180;
-    // //theta = fov;
-    // cam.half_h = tan(theta / 2);
-    // cam.half_w = cam.half_h * (WIN_WIDTH / WIN_HEIGHT);
-    // cam.w = ft_unit_vec(ft_minus(lookat, lookfrom));
-    // cam.u =  ft_unit_vec(ft_cross(cam.w, vup));
-    // cam.v = ft_cross(cam.u, cam.w);
-    // cam.origin = lookfrom;
-    // cam.horizontal = ft_pro_k(cam.u, 4.0 * cam.half_w);
-    // cam.vertical = ft_pro_k(cam.v, 4.0 * cam.half_h);
-    // llc = ft_minus(cam.origin, ft_plus(ft_pro_k(cam.v, cam.half_h),\
-    //     ft_pro_k(cam.u, cam.half_w)));
-    // cam.lower_left_corner = ft_plus(llc, cam.w);
-    // // cam.lower_left_corner = ft_vec(- cam.half_w, - cam.half_h, -1); 
-    cam.origin = ft_vec(0,0,0);
-    cam.horizontal =  ft_vec(4,0,0);
-    cam.vertical = ft_vec(0,4,0);
-    cam.lower_left_corner = ft_vec(-2,-1,-1);
+    vup = ft_unit_vec(ft_vec(0.001, 1, 0.001));
+    theta = fov * M_PI / 180.0;
+    cam.origin = lookfrom;
+    cam.half_h = tan(theta / 2.0);
+    cam.half_w = cam.half_h * (WIN_WIDTH / WIN_HEIGHT);
+    cam.w = ft_unit_vec(ft_minus(lookat, lookfrom));
+    cam.u =  ft_unit_vec(ft_cross(cam.w, vup));
+    cam.v = ft_cross(cam.u, cam.w);
+    cam.horizontal = ft_pro_k(cam.u, 2.0 * cam.half_w);
+    cam.vertical = ft_pro_k(cam.v, 2.0 * cam.half_h);
+    cam.lower_left_corner  = ft_minus(cam.origin, ft_plus(ft_pro_k(cam.v, cam.half_h),
+        ft_pro_k(cam.u, cam.half_w)));
+    cam.lower_left_corner = ft_plus(cam.lower_left_corner , cam.w);
+    // cam.origin = ft_vec(0,0,0);
+    // cam.horizontal =  ft_vec(4,0,0);
+    // cam.vertical = ft_vec(0,4,0);
+    // cam.lower_left_corner = ft_vec(-2,-1,-1);
     return (cam);
 }

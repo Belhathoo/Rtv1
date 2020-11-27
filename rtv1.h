@@ -20,8 +20,8 @@
 
 # include <stdio.h>
 
-#define WIN_WIDTH  800
-#define WIN_HEIGHT 400
+#define WIN_WIDTH  900
+#define WIN_HEIGHT 450
 
 #define RGB(x) (int)(255.99 * x)
 #define RGBTOI(x, y, z) (x * 256 * 256 + y * 256 + z)
