@@ -35,23 +35,29 @@ t_vec   ray_fctn(t_ray r, float t)
     return res;
 }
 
-void    ft_ray_tracer(t_object *objs, t_ptr *p, double x, double y)
+t_ray   ft_ray_tracer(t_object *objs, t_ptr *p, double x, double y)
 {
-    t_cam   cam;
-    t_vec   d, vc;
+    t_cam   cam;   
     t_ray   r;
-   
-    int color;
-    double u,v;
-   
-    u = (double)(x / WIN_WIDTH);
-    v = (double)(y / WIN_HEIGHT);
 
     cam = p->scene->camera;
-    d = ft_plus(ft_pro_k(cam.horizontal, u), ft_pro_k(cam.vertical, v));
-    d = ft_plus(ft_minus(cam.lower_left_corner, cam.origin), d);
-    r = ft_ray(cam.origin, d);
-    vc = ft_color(objs, r);
-    color = RGBTOI(RGB(vc.e1), RGB(vc.e2), RGB(vc.e3));
-    ft_mlx_putpixel(p, x, y, color);
+    r.dir = ft_plus(ft_pro_k(cam.horizontal, x / IMG_WIDTH),
+     ft_pro_k(cam.vertical, y / IMG_HEIGHT));
+    r.dir = ft_plus(ft_minus(cam.lower_left_corner, cam.origin), dir);
+    r.origin = cam.origin;
+
+    return(ft_color(objs, r));
+
 }
+	t_color		c;
+	t_ray		r;
+	int			ss;
+
+	c = COL(0, 0, 0);
+	ss = -1;
+	while (++ss < (int)scene->anti_a)
+	{
+		r = ft_get_ray(&scene->cam, col, row);
+		c = ft_add_c(c, ft_raytrace_color(scene, &r, scene->object));
+	}
+	c = ft_div_kc(c, scene->anti_a);

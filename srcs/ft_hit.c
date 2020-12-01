@@ -16,28 +16,21 @@ int    ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record *rec)
 {
     t_vec       oc;
     double      a, b, c, delta;
-    double      tmp;
-
+    double      tmp[2];
 
     oc = ft_minus(r.origin, sphere->pos);
     a = ft_dot(r.dir, r.dir);
     b = 2 * ft_dot(oc, r.dir);
     c = ft_dot(oc, oc) - pow(sphere->size, 2);
-    delta = b * b - 4 * a * c;
+    delta = pow(b, 2) - 4 * a * c;
     if (delta > 0)
     {
-        tmp =  (-b - sqrt(delta)) / (2 * a);
-        if (tmp < r.t_max && tmp > r.t_min)
+        tmp[0] =  (-b - sqrt(delta)) / (2 * a);
+        tmp[1] =  (-b + sqrt(delta)) / (2 * a);
+        (tmp[0] > tmp[1]) ? tmp[0] = tmp[1] : 0;
+        if (tmp[0] < rec->closest && tmp[0] > TMIN)
         {
-            rec->t = tmp;
-            rec->p = ray_fctn(r, rec->t);
-            rec->normal = ft_div_k(ft_minus(rec->p, sphere->pos), sphere->size);
-            return (1);
-        }
-        tmp =  (-b + sqrt(delta)) / (2 * a);
-        if (tmp < r.t_max && tmp > r.t_min)
-        {
-            rec->t = tmp;
+            rec->t = tmp[0];
             rec->p = ray_fctn(r, rec->t);
             rec->normal = ft_div_k(ft_minus(rec->p, sphere->pos), sphere->size);
             return (1);
@@ -48,27 +41,21 @@ int    ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record *rec)
 
 int     ft_hit(t_object *o, t_ray r, t_hit_record *rec)
 {
-    t_hit_record    *tmp_rec;
+    t_hit_record    tmp_rec;
     int             hit_anything ;
-    double          closest_so_far;
-    t_object        *tt = NULL;
 
-
-    r.t_max = 2148256346;
-    r.t_min = 0;
     hit_anything = 0;
-    closest_so_far = r.t_max;
-    tt = o;
+    rec->closest = DBL_MAX;
     while (o)
     {
-        if (o->hit(o, r, tmp_rec))
+        if (o->hit(o, r, rec))
         {
             hit_anything = 1;
-            closest_so_far = tmp_rec->t;
-            rec = tmp_rec;
+            rec->closest = rec->t;
+            rec->curr_obj = o;
+            rec->ray = &r;
         }
         o = o->next;
     }
-    o = tt;
     return (hit_anything);
 }

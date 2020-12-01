@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./libft/libft.h"
+#include <libft.h>
 #include <mlx.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -20,8 +20,13 @@
 
 # include <stdio.h>
 
-#define WIN_WIDTH  900
-#define WIN_HEIGHT 450
+#define WIN_WIDTH  1000
+#define WIN_HEIGHT 500
+#define IMG_WIDTH  1000
+#define IMG_HEIGHT 500
+
+#define NBTHREAD 4
+#define TMIN 0.00001
 
 #define RGB(x) (int)(255.99 * x)
 #define RGBTOI(x, y, z) (x * 256 * 256 + y * 256 + z)
@@ -48,8 +53,8 @@ typedef struct		s_ray
 {
 	t_vec			origin;
 	t_vec			dir;
-	double			t_min;
-	double			t_max;
+	// double			t_min;
+	// double			t_max;
 }					t_ray;
 
 typedef	struct 		s_obj
@@ -89,8 +94,12 @@ typedef	struct		s_l
 typedef	struct		s_hit_record
 {
 	double			t;
+	double			closest;
 	t_vec			p;
 	t_vec			normal;
+	t_object		*curr_obj;
+	t_ray			*ray;
+
 }					t_hit_record;
 
 typedef struct		s_scene
@@ -112,6 +121,16 @@ typedef struct		s_ptr
 	t_scene			*scene;
 }					t_ptr;
 
+typedef struct		s_thread
+{
+	int				i;
+	t_ptr			*p;
+	
+}					t_thread;
+
+void	ft_mlx_putpixel(t_ptr *p, int x, int y, int color);
+void		kick_off(t_ptr *p);
+void    *ft_draw(t_thread *thread);
 
 t_vec		ft_vec(double x, double y, double z);
 t_vec		ft_plus(t_vec a, t_vec b);
@@ -147,7 +166,7 @@ t_vec		ft_rot_z(t_vec old, double theta);
 
 t_ray		ft_ray(t_vec a, t_vec b);
 t_vec		ray_fctn(t_ray r, float t);
-void		ft_ray_tracer(t_object *o, t_ptr *p, double x, double y);
+t_vec		ft_ray_tracer(t_object *o, t_ptr *p, double x, double y);
 
 t_cam		cam_set(t_vec lookfrom, t_vec lookat, double fov);
 t_vec		ft_color(t_object *o, t_ray ray);

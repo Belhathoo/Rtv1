@@ -1,14 +1,27 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: belhatho <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/12/01 01:27:34 by belhatho          #+#    #+#              #
+#    Updated: 2020/12/01 01:27:37 by belhatho         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME = rtv1
 
 SRCS = main.c ft_vec.c ft_ray.c ft_cam.c ft_hit.c ft_hook.c
 SRCS += ft_parse.c ft_parse1.c ft_parse2.c ft_cleanup.c
-SRCS += ft_rotate.c
-SRC = $(SRCS:%=./srcs/%)
+SRCS += ft_rotate.c	ft_draw.c
+
+SRC = $(SRCS:%=srcs/%)
 
 HEADER = headers
+OBJ_DIR = objs
 
-OBJ = $(SRCS:.c=.o)
+OBJ = $(SRCS:%.c=objs/%.o)
 
 OK_COLOR=\x1b[32;01m
 NO_COLOR=\x1b[0m
@@ -35,8 +48,11 @@ $(NAME): $(OBJ)
 	@gcc $(CFLAGS) -o $(NAME) $^ $(MYFLAG)
 	@echo "$(BUILD_PRINT)"
 
-%.o: ./srcs/%.c $(HEADER) 
-	@echo "`gcc  -I $(filter-out $<, $+) $(CFLAGS) -o $@ -c $<`$< => $@ $(OK_STRING)"
+$(OBJ_DIR):
+	mkdir -p $@
+
+objs/%.o: srcs/%.c headers/rtv1.h | $(OBJ_DIR)
+	@echo "`gcc $(CFLAGS) -o $@ -c $< -I headers -I libft`$< => $@ $(OK_STRING)"
 
 clean:
 	@echo "$(OK_COLOR)Deleting objects...$(NO_COLOR)"

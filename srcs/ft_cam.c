@@ -20,13 +20,11 @@ t_vec   ft_color(t_object *objs, t_ray ray)
     t_vec   res;
     
     if ((d = ft_hit(objs, ray, &rec)) > 0)
-    {
-        res = ft_unit_vec(ft_minus(ray_fctn(ray, d), ft_vec(0, 0, -1)));
-        return (ft_pro_k(ft_plus(rec.normal, ft_vec(1,1,1)), 0.5));
-    }
-    unit_dir = ft_unit_vec(ray.dir);
-    d = 0.5 * (unit_dir.e2 + 1); 
-    res = ft_plus(ft_pro_k(ft_vec(1, 1, 1), (1 - d)) , ft_pro_k(ft_vec(0.5, 0.7, 1), d));  
+        return (rec.curr_obj->color);
+    // unit_dir = ft_unit_vec(ray.dir);
+    // d = 0.5 * (unit_dir.e2 + 1); 
+    // res = ft_plus(ft_pro_k(ft_vec(1, 1, 1), (1 - d)) , ft_pro_k(ft_vec(0.5, 0.7, 1), d));  
+    res = ft_vec(0,0,0);
     return (res);
 }
 
@@ -50,9 +48,5 @@ t_cam   cam_set(t_vec lookfrom, t_vec lookat, double fov)
     cam.lower_left_corner  = ft_minus(cam.origin, ft_plus(ft_pro_k(cam.v, cam.half_h),
         ft_pro_k(cam.u, cam.half_w)));
     cam.lower_left_corner = ft_plus(cam.lower_left_corner , cam.w);
-    // cam.origin = ft_vec(0,0,0);
-    // cam.horizontal =  ft_vec(4,0,0);
-    // cam.vertical = ft_vec(0,4,0);
-    // cam.lower_left_corner = ft_vec(-2,-1,-1);
     return (cam);
 }
