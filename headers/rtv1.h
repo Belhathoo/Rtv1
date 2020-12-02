@@ -20,10 +20,10 @@
 
 # include <stdio.h>
 
-#define WIN_WIDTH  1000
-#define WIN_HEIGHT 500
-#define IMG_WIDTH  1000
-#define IMG_HEIGHT 500
+#define WIN_WIDTH  1300
+#define WIN_HEIGHT 900
+#define IMG_WIDTH  1200
+#define IMG_HEIGHT 600
 
 #define NBTHREAD 4
 #define TMIN 0.00001
@@ -53,8 +53,6 @@ typedef struct		s_ray
 {
 	t_vec			origin;
 	t_vec			dir;
-	// double			t_min;
-	// double			t_max;
 }					t_ray;
 
 typedef	struct 		s_obj
@@ -65,6 +63,9 @@ typedef	struct 		s_obj
 	t_vec			color;
 	double			size;
 	int				(*hit)();
+	double			ka;
+	double			kd;
+	double			ks;
 	struct s_obj	*next;
 }					t_object;
 
@@ -99,7 +100,6 @@ typedef	struct		s_hit_record
 	t_vec			normal;
 	t_object		*curr_obj;
 	t_ray			*ray;
-
 }					t_hit_record;
 
 typedef struct		s_scene
@@ -107,6 +107,7 @@ typedef struct		s_scene
 	t_cam			camera;
 	t_object		*obj;
 	t_light			*light;
+	double			anti_a;
 }					t_scene;
 
 typedef struct		s_ptr
@@ -125,12 +126,20 @@ typedef struct		s_thread
 {
 	int				i;
 	t_ptr			*p;
-	
+	t_hit_record	rec;
 }					t_thread;
 
 void	ft_mlx_putpixel(t_ptr *p, int x, int y, int color);
+double			ft_clamping(double value);
+void		ft_adjustment(t_vec *c);
+void		ft_init(t_ptr *p);
+
 void		kick_off(t_ptr *p);
 void    *ft_draw(t_thread *thread);
+
+void		ft_lighting(t_thread *th, t_light *l, t_vec *col);
+t_vec		ft_calcul(t_thread *t, t_ray ray);
+int			ft_define_color(t_thread *th, double i, double j);
 
 t_vec		ft_vec(double x, double y, double z);
 t_vec		ft_plus(t_vec a, t_vec b);
@@ -166,13 +175,12 @@ t_vec		ft_rot_z(t_vec old, double theta);
 
 t_ray		ft_ray(t_vec a, t_vec b);
 t_vec		ray_fctn(t_ray r, float t);
-t_vec		ft_ray_tracer(t_object *o, t_ptr *p, double x, double y);
+t_ray		ft_ray_tracer(t_ptr *p, double x, double y);
 
 t_cam		cam_set(t_vec lookfrom, t_vec lookat, double fov);
-t_vec		ft_color(t_object *o, t_ray ray);
 
 int			ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record *rec);
-int			ft_hit(t_object *o, t_ray r, t_hit_record *rec);
+int			ft_hit(t_object *o, t_ray r, t_hit_record *rec, double m);
 
 int			ft_close(t_ptr *p);
 int			ft_deal_key(int key, t_ptr *p);

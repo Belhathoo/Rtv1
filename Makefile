@@ -14,7 +14,7 @@ NAME = rtv1
 
 SRCS = main.c ft_vec.c ft_ray.c ft_cam.c ft_hit.c ft_hook.c
 SRCS += ft_parse.c ft_parse1.c ft_parse2.c ft_cleanup.c
-SRCS += ft_rotate.c	ft_draw.c
+SRCS += ft_rotate.c	ft_draw.c ft_init.c ft_lighting.c
 
 SRC = $(SRCS:%=srcs/%)
 

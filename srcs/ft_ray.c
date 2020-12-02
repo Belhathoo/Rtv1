@@ -14,8 +14,8 @@
 
 void	ft_mlx_putpixel(t_ptr *p, int x, int y, int color)
 {
-	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-		p->data[y * (int)WIN_WIDTH + x] = color;
+	if (x >= 0 && x < IMG_WIDTH && y >= 0 && y < IMG_HEIGHT)
+		p->data[y * (int)IMG_WIDTH + x] = color;
 }
 
 t_ray   ft_ray(t_vec a, t_vec b)
@@ -35,7 +35,7 @@ t_vec   ray_fctn(t_ray r, float t)
     return res;
 }
 
-t_ray   ft_ray_tracer(t_object *objs, t_ptr *p, double x, double y)
+t_ray   ft_ray_tracer(t_ptr *p, double x, double y)
 {
     t_cam   cam;   
     t_ray   r;
@@ -43,21 +43,29 @@ t_ray   ft_ray_tracer(t_object *objs, t_ptr *p, double x, double y)
     cam = p->scene->camera;
     r.dir = ft_plus(ft_pro_k(cam.horizontal, x / IMG_WIDTH),
      ft_pro_k(cam.vertical, y / IMG_HEIGHT));
-    r.dir = ft_plus(ft_minus(cam.lower_left_corner, cam.origin), dir);
+    r.dir = ft_plus(ft_minus(cam.lower_left_corner, cam.origin), r.dir);
     r.origin = cam.origin;
-
-    return(ft_color(objs, r));
-
+    return (r);
 }
-	t_color		c;
-	t_ray		r;
-	int			ss;
 
-	c = COL(0, 0, 0);
+int     ft_define_color(t_thread *th, double i, double j)
+{
+	t_vec		col;
+    t_ray       r;
+	double			ss;
+    int         anti_a;
+    int         c;
+
+	col = ft_vec(0, 0, 0);
 	ss = -1;
-	while (++ss < (int)scene->anti_a)
+    anti_a = th->p->scene->anti_a;
+    // anti_a = 5;
+	while (++ss < anti_a)
 	{
-		r = ft_get_ray(&scene->cam, col, row);
-		c = ft_add_c(c, ft_raytrace_color(scene, &r, scene->object));
+        r = ft_ray_tracer(th->p, i + (ss / anti_a), j + (ss / anti_a));
+        col = ft_plus(col, ft_calcul(th, r));
 	}
-	c = ft_div_kc(c, scene->anti_a);
+	col = ft_div_k(col, anti_a);
+    c = RGBTOI(RGB(col.e1), RGB(col.e2), RGB(col.e3));
+    return (c);
+}

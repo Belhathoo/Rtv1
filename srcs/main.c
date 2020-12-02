@@ -12,24 +12,14 @@
 
 #include "./rtv1.h"
 
-void		ft_init(t_ptr *p)
-{
-	p->img = NULL;
-	p->mlx = NULL;
-	p->data = NULL;
-	p->win = NULL;
-   	p->bpp = malloc(4);
-	p->size = malloc(4);
-	p->endian = malloc(4);
-}
-
 void	ft_mlx_launch(t_ptr *p)
 {
     ft_init(p);
 	p->mlx = mlx_init();
 	p->win = mlx_new_window(p->mlx, WIN_WIDTH, WIN_HEIGHT, "RTv1");
     p->img = mlx_new_image(p->mlx, IMG_WIDTH, IMG_HEIGHT);
-	p->data = (int*)mlx_get_data_addr(p->img, p->bpp, p->size, p->endian);    
+	p->data = (int*)mlx_get_data_addr(p->img, p->bpp, p->size, p->endian);
+    p->scene->anti_a = 1;
 }
 
 

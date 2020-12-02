@@ -39,13 +39,13 @@ int    ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record *rec)
     return (0);
 }
 
-int     ft_hit(t_object *o, t_ray r, t_hit_record *rec)
+int     ft_hit(t_object *o, t_ray r, t_hit_record *rec, double tmax)
 {
     t_hit_record    tmp_rec;
     int             hit_anything ;
 
     hit_anything = 0;
-    rec->closest = DBL_MAX;
+    rec->closest = tmax;
     while (o)
     {
         if (o->hit(o, r, rec))

@@ -16,7 +16,6 @@ void    *ft_draw(t_thread *thread)
 {
     double  i;
     double  j;
-    t_vec   color;
     int     c;
 
     j = IMG_HEIGHT;
@@ -25,8 +24,7 @@ void    *ft_draw(t_thread *thread)
         i = (int)(thread->i * IMG_WIDTH / NBTHREAD) - 1;;
         while (++i < (int)((thread->i + 1) * IMG_WIDTH / NBTHREAD))
         {
-            color = ft_ray_tracer(thread->p->scene->obj, thread->p, i, j);
-            c = RGBTOI(RGB(color.e1), RGB(color.e2), RGB(color.e3));
+            c = ft_define_color(thread, i, j);
             ft_mlx_putpixel(thread->p, i, IMG_HEIGHT - j, c);  
         }
     }
@@ -39,6 +37,7 @@ void		kick_off(t_ptr *p)
 	t_thread	div[NBTHREAD];
 	int			i;
 
+   	ft_bzero(p->data, IMG_WIDTH * IMG_HEIGHT * 4);
 	i = -1;
 	while (++i < NBTHREAD)
 	{
@@ -48,6 +47,6 @@ void		kick_off(t_ptr *p)
 	}
 	while (--i >= 0)
 		pthread_join(thread[i], NULL);
-    mlx_put_image_to_window(p->mlx, p->win, p->img, 0, 0);
+    mlx_put_image_to_window(p->mlx, p->win, p->img, 50, 280);
 }
 

@@ -91,15 +91,6 @@ void			ft_add_object(t_ptr *p, int fd, char **line, int t)
 	obj->next = tmp;
 }
 
-double			ft_clamping(double value)
-{
-	if (value < 0.0)
-		value = 0.0;
-	if (value > 1.0)
-		value = 1.0;
-	return (value);
-}
-
 void			ft_add_light(t_ptr *p, int fd, char **line)
 {
 	t_light			*light[2];

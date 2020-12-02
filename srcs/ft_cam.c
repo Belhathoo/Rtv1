@@ -12,20 +12,26 @@
 
 # include "rtv1.h"
 
-t_vec   ft_color(t_object *objs, t_ray ray)
+t_vec   ft_calcul(t_thread *th, t_ray ray)
 {
     t_vec           unit_dir;
-    t_hit_record    rec;
     double   d;
-    t_vec   res;
+    t_vec   col;
     
-    if ((d = ft_hit(objs, ray, &rec)) > 0)
-        return (rec.curr_obj->color);
-    // unit_dir = ft_unit_vec(ray.dir);
-    // d = 0.5 * (unit_dir.e2 + 1); 
-    // res = ft_plus(ft_pro_k(ft_vec(1, 1, 1), (1 - d)) , ft_pro_k(ft_vec(0.5, 0.7, 1), d));  
-    res = ft_vec(0,0,0);
-    return (res);
+    col = ft_vec(0, 0, 0);
+    if (ft_hit(th->p->scene->obj, ray, &th->rec, DBL_MAX) > 0)
+        ft_lighting(th, th->p->scene->light, &col);
+        // col = ft_pro_k(th->rec.curr_obj->color, 0.75);
+    // else
+    // {   
+    //     // unit_dir = ft_unit_vec(ray.dir);
+    //     // d = 0.5 * (unit_dir.e2 + 1); 
+    //     // col = ft_plus(ft_pro_k(ft_vec(1, 1, 1), (1 - d)) , ft_pro_k(ft_vec(0.5, 0.7, 1), d));  
+    //     col = ft_vec(1,1,1);
+    // }
+    // // printf("col: %f\n", col.e1);
+    ft_adjustment(&col);
+    return (col);
 }
 
 t_cam   cam_set(t_vec lookfrom, t_vec lookat, double fov)
@@ -39,7 +45,7 @@ t_cam   cam_set(t_vec lookfrom, t_vec lookat, double fov)
     theta = fov * M_PI / 180.0;
     cam.origin = lookfrom;
     cam.half_h = tan(theta / 2.0);
-    cam.half_w = cam.half_h * (WIN_WIDTH / WIN_HEIGHT);
+    cam.half_w = cam.half_h * (IMG_WIDTH / IMG_HEIGHT);
     cam.w = ft_unit_vec(ft_minus(lookat, lookfrom));
     cam.u =  ft_unit_vec(ft_cross(cam.w, vup));
     cam.v = ft_cross(cam.u, cam.w);
