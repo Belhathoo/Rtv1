@@ -23,7 +23,7 @@ void		ft_init(t_ptr *p)
 	p->endian = malloc(4);
 }
 
-void		ft_adjustment(t_vec *c)
+void		ft_clamp(t_vec *c)
 {
 	c->e1 = ft_clamping(c->e1);
 	c->e2 = ft_clamping(c->e2);

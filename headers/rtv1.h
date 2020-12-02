@@ -63,6 +63,7 @@ typedef	struct 		s_obj
 	t_vec			color;
 	double			size;
 	int				(*hit)();
+	double			shininess;
 	double			ka;
 	double			kd;
 	double			ks;
@@ -89,6 +90,8 @@ typedef	struct		s_l
 	t_vec			pos;
 	t_vec			color;
 	double			intensity;
+	// double			amb_int;
+	double			brightness;
 	struct s_l		*next;
 }					t_light;
 
@@ -131,7 +134,7 @@ typedef struct		s_thread
 
 void	ft_mlx_putpixel(t_ptr *p, int x, int y, int color);
 double			ft_clamping(double value);
-void		ft_adjustment(t_vec *c);
+void		ft_clamp(t_vec *c);
 void		ft_init(t_ptr *p);
 
 void		kick_off(t_ptr *p);

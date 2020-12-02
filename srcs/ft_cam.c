@@ -30,7 +30,7 @@ t_vec   ft_calcul(t_thread *th, t_ray ray)
     //     col = ft_vec(1,1,1);
     // }
     // // printf("col: %f\n", col.e1);
-    ft_adjustment(&col);
+    ft_clamp(&col);
     return (col);
 }
 

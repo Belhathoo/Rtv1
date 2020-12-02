@@ -59,7 +59,7 @@ int     ft_define_color(t_thread *th, double i, double j)
 	col = ft_vec(0, 0, 0);
 	ss = -1;
     anti_a = th->p->scene->anti_a;
-    // anti_a = 5;
+    anti_a = 5;
 	while (++ss < anti_a)
 	{
         r = ft_ray_tracer(th->p, i + (ss / anti_a), j + (ss / anti_a));
