@@ -99,6 +99,7 @@ typedef	struct		s_hit_record
 {
 	double			t;
 	double			closest;
+	t_vec			col;
 	t_vec			p;
 	t_vec			normal;
 	t_object		*curr_obj;
@@ -111,6 +112,7 @@ typedef struct		s_scene
 	t_object		*obj;
 	t_light			*light;
 	double			anti_a;
+	double			amb;
 }					t_scene;
 
 typedef struct		s_ptr
