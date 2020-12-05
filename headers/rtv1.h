@@ -20,10 +20,10 @@
 
 # include <stdio.h>
 
-#define WIN_WIDTH  1300
-#define WIN_HEIGHT 900
-#define IMG_WIDTH  1200
-#define IMG_HEIGHT 600
+#define WIN_WIDTH  1200
+#define WIN_HEIGHT 800
+#define IMG_WIDTH  1000
+#define IMG_HEIGHT 500
 
 #define NBTHREAD 4
 #define TMIN 0.00001

@@ -17,7 +17,6 @@ void    *ft_draw(t_thread *thread)
     double  i;
     double  j;
     int     c;
-
     j = IMG_HEIGHT;
     while (--j >= 0)
     {
@@ -47,6 +46,6 @@ void		kick_off(t_ptr *p)
 	}
 	while (--i >= 0)
 		pthread_join(thread[i], NULL);
-    mlx_put_image_to_window(p->mlx, p->win, p->img, 50, 280);
+    mlx_put_image_to_window(p->mlx, p->win, p->img, 100, 200);
 }
 

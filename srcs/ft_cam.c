@@ -22,16 +22,15 @@ t_vec   ft_calcul(t_thread *th, t_ray ray)
     if (ft_hit(th->p->scene->obj, ray, &th->rec, DBL_MAX) > 0)
     {
         th->rec.col = th->rec.curr_obj->color;
-        ft_lighting(th, th->p->scene->light, &th->rec.col);
-        col = th->rec.col;
+        ft_lighting(th, th->p->scene->light, &col);
     }
-    // else
-    // {   
-    //     // unit_dir = ft_unit_vec(ray.dir);
-    //     // d = 0.5 * (unit_dir.e2 + 1); 
-    //     // col = ft_plus(ft_pro_k(ft_vec(1, 1, 1), (1 - d)) , ft_pro_k(ft_vec(0.5, 0.7, 1), d));  
-    // }
-    ft_clamp(&col);
+    else
+    {   
+        // unit_dir = ft_unit_vec(ray.dir);
+        // d = 0.5 * (unit_dir.e2 + 1); 
+        // col = ft_plus(ft_pro_k(ft_vec(1, 1, 1), (1 - d)) , ft_pro_k(ft_vec(0.5, 0.7, 1), d));  
+        col = ft_vec(0,0,0);
+    }
     return (col);
 }
 
