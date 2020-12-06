@@ -52,21 +52,25 @@ int     ft_define_color(t_thread *th, double i, double j)
 {
 	t_vec		col;
     t_ray       r;
-	double			ss;
+	double			ss[2];
     int         anti_a;
     int         c;
 
     // anti_a = th->p->scene->anti_a; // --
 	col = ft_vec(0, 0, 0);
-	ss = -1;
-    anti_a = 4;
-	while (++ss < anti_a)
+    anti_a = 2;
+    ss[0] = -1;
+	while ( ++ss[0] < anti_a)
 	{
-        r = ft_ray_tracer(th->p, i + (ss / anti_a), 
-            j + (ss / anti_a));
-        col = ft_plus(col, ft_calcul(th, r));
-	}
-	col = ft_div_k(col, anti_a);
+		ss[1] = -1;
+		while (++ss[1] < anti_a)
+		{
+			r = ft_ray_tracer(th->p, i + ((ss[0] + 0.5)/ anti_a),
+				j + ((ss[1] + 0.5) / anti_a));
+            col = ft_plus(col, ft_calcul(th, r));
+		}
+    }
+	col = ft_div_k(col, anti_a * anti_a);
     ft_clamp(&col);
     c = RGBTOI(RGB(col.e1), RGB(col.e2), RGB(col.e3));
     return (c);

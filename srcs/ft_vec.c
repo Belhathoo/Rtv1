@@ -27,6 +27,11 @@ t_vec	ft_plus(t_vec a, t_vec b)
 	return (ft_vec(a.e1 + b.e1, a.e2 + b.e2, a.e3 + b.e3));
 }
 
+t_vec	ft_plus_k(t_vec a, double k)
+{
+	return (ft_vec(a.e1 + k, a.e2 + k, a.e3 + k));
+}
+
 t_vec	ft_minus(t_vec a, t_vec b)
 {
 	return (ft_vec(a.e1 - b.e1, a.e2 - b.e2, a.e3 - b.e3));

@@ -89,9 +89,9 @@ typedef	struct		s_l
 {
 	t_vec			pos;
 	t_vec			color;
+	t_vec			l_vec;
+	double			f_att;
 	double			intensity;
-	// double			amb_int;
-	double			brightness;
 	struct s_l		*next;
 }					t_light;
 
@@ -148,6 +148,7 @@ int			ft_define_color(t_thread *th, double i, double j);
 
 t_vec		ft_vec(double x, double y, double z);
 t_vec		ft_plus(t_vec a, t_vec b);
+t_vec		ft_plus_k(t_vec a, double b);
 t_vec		ft_minus(t_vec a, t_vec b);
 t_vec		ft_div(t_vec a, t_vec b);
 t_vec		ft_produit(t_vec a, t_vec b);
