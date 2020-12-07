@@ -144,7 +144,7 @@ void    *ft_draw(t_thread *thread);
 
 void		ft_lighting(t_thread *th, t_light *l, t_vec *col);
 t_vec		ft_calcul(t_thread *t, t_ray ray);
-int			ft_define_color(t_thread *th, double i, double j);
+int			ft_anti_a(t_thread *th, double i, double j);
 
 t_vec		ft_vec(double x, double y, double z);
 t_vec		ft_plus(t_vec a, t_vec b);

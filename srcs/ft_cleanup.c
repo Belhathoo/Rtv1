@@ -28,7 +28,7 @@ void		ft_free_objects(t_object *object)
 	t_object	*obj;
 	t_object	*tmp;
 
-    obj = object;
+	obj = object;
 	while (obj != NULL)
 	{
 		tmp = obj->next;
@@ -53,10 +53,13 @@ void		ft_free_lights(t_light *light)
 
 void        ft_fexit(char *msg, int err, t_ptr **p)
 {
-    // ft_putstr(ft_strjoin(err ? "error: " : "", msg));
-	// ft_free_objects((*p)->scene->obj);
-	// ft_free_lights((*p)->scene->light);
-	// free((*p)->scene);
-	// free(*p);
+	ft_putstr(ft_strjoin(err ? "error: " : "", msg));
+	if ((*p)->scene)
+	{
+		ft_free_objects((*p)->scene->obj);
+		ft_free_lights((*p)->scene->light);
+		free((*p)->scene);
+	}
+	free(*p);
 	exit(0);
 }

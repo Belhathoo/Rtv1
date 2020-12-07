@@ -42,36 +42,8 @@ t_ray   ft_ray_tracer(t_ptr *p, double x, double y)
 
     cam = p->scene->camera;
     r.dir = ft_plus(ft_pro_k(cam.horizontal, x / IMG_WIDTH),
-     ft_pro_k(cam.vertical, y / IMG_HEIGHT));
+                    ft_pro_k(cam.vertical, y / IMG_HEIGHT));
     r.dir = ft_plus(ft_minus(cam.lower_left_corner, cam.origin), r.dir);
     r.origin = cam.origin;
     return (r);
-}
-
-int     ft_define_color(t_thread *th, double i, double j)
-{
-	t_vec		col;
-    t_ray       r;
-	double			ss[2];
-    int         anti_a;
-    int         c;
-
-    // anti_a = th->p->scene->anti_a; // --
-	col = ft_vec(0, 0, 0);
-    anti_a = 2;
-    ss[0] = -1;
-	while ( ++ss[0] < anti_a)
-	{
-		ss[1] = -1;
-		while (++ss[1] < anti_a)
-		{
-			r = ft_ray_tracer(th->p, i + ((ss[0] + 0.5)/ anti_a),
-				j + ((ss[1] + 0.5) / anti_a));
-            col = ft_plus(col, ft_calcul(th, r));
-		}
-    }
-	col = ft_div_k(col, anti_a * anti_a);
-    ft_clamp(&col);
-    c = RGBTOI(RGB(col.e1), RGB(col.e2), RGB(col.e3));
-    return (c);
 }
