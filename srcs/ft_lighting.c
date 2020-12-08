@@ -32,7 +32,7 @@ int     ft_shading(t_thread *th, t_light *l, t_vec lo)
     t_object        *o;
     double          closest;
 
-    o = th->rec.curr_obj;
+    o = th->p->scene->obj;
     sh_r = ft_ray(th->rec.p, lo);
     closest = ft_length(sh_r.dir);
     sh_r.dir = ft_unit_vec(sh_r.dir);
@@ -48,14 +48,14 @@ int     ft_shading(t_thread *th, t_light *l, t_vec lo)
 
 void   ft_ambient(_Bool i, t_thread *th, t_vec *col)
 {
-    th->p->scene->amb = 0.15;
-    th->rec.curr_obj->ka = 1; // --
+    th->p->scene->amb = 1.0;
+    th->rec.curr_obj->ka = 0.4; // --
     
     double  ia;
 
     ia = th->rec.curr_obj->ka * th->p->scene->amb;
     if (i)
-        *col = ft_pro_k(th->rec.col, ia);
+        *col = ft_pro_k(th->rec.col, th->rec.curr_obj->ka);
     else
         *col = ft_pro_k(ft_produit(th->p->scene->light->color, th->rec.col), ia); //
                 
@@ -84,15 +84,13 @@ void   ft_specular(t_thread *th, t_light *l, t_vec lo, double  f_att, t_vec *spe
 
     o = th->rec.curr_obj;
 
-    double shininess = 20; // --
-    double ks = 1.0; // --
+    o->shininess = 90; // --
+    o->ks = 1.0; // --
     
     refl = ft_unit_vec((ft_reflect(ft_unit_vec(lo), th->rec.normal)));
-    oc = ft_unit_vec(ft_minus(th->rec.p, th->p->scene->camera.origin));
-    // oc = th->rec.ray->dir;
-    s = pow(ffmax(0.0, ft_dot(refl, oc)), shininess);
-    s *= ks * l->intensity;
-    oc = ft_produit(th->rec.curr_obj->color, l->color);
+    s = pow(ffmax(0.0, ft_dot(refl, ft_unit_vec(th->rec.ray->dir))), o->shininess);
+    s *= o->ks * l->intensity;
+    oc = ft_plus(th->rec.curr_obj->color, l->color);
     oc = ft_pro_k(oc, s);
     *spec = ft_plus(*spec, oc);
 }

@@ -27,11 +27,11 @@ t_ray   ft_ray(t_vec a, t_vec b)
     return (r);
 }
 
-t_vec   ray_fctn(t_ray r, float t)
+t_vec   ray_fctn(t_ray *r, float t)
 {
     t_vec res;
 
-    res = ft_plus(r.origin, (ft_pro_k(r.dir, t)));
+    res = ft_plus(r->origin, (ft_pro_k(r->dir, t)));
     return res;
 }
 

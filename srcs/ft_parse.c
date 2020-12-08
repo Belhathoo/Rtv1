@@ -77,7 +77,7 @@ void		ft_check_data(t_ptr *p)
 		ft_fexit("Wrong field of view value\n", 1, &p);
 	while (tmp)
 	{
-		if (tmp->size < 0.001 /*&& tmp->hit != ft_hit_plane*/)
+		if (tmp->size < 0.001 && tmp->hit != ft_hit_plan)
 			ft_fexit("wrong size detected\n", 1, &p);
 		if ((c[0] < 0.0 || c[0] > 1.0) || (c[1] < 0.0 || c[1] > 1.0)
 				|| (c[2] < 0.0 || c[2] > 1.0))

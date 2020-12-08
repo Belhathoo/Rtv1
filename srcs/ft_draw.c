@@ -24,8 +24,6 @@ t_vec   ft_calcul(t_thread *th, t_ray ray)
         th->rec.col = th->rec.curr_obj->color;
         ft_lighting(th, th->p->scene->light, &col);
     }
-    // else
-    //     col = ft_vec(0,0,0);
     return (col);
 }
 
@@ -33,13 +31,12 @@ int     ft_anti_a(t_thread *th, double i, double j)
 {
 	t_vec		col;
     t_ray       r;
-	double			ss[2];
+	double		ss[2];
     int         anti_a;
     int         c;
 
-    // anti_a = th->p->scene->anti_a; // --
+    anti_a = th->p->scene->anti_a; // --
 	col = ft_vec(0, 0, 0);
-    anti_a = 2;
     ss[0] = -1;
 	while ( ++ss[0] < anti_a)
 	{

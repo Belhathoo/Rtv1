@@ -104,6 +104,10 @@ typedef	struct		s_hit_record
 	t_vec			normal;
 	t_object		*curr_obj;
 	t_ray			*ray;
+	t_vec			oc;
+	double			coef[3];
+	double			sol[2];
+	double			delta;
 }					t_hit_record;
 
 typedef struct		s_scene
@@ -180,13 +184,16 @@ t_vec		ft_rot_z(t_vec old, double theta);
 
 
 t_ray		ft_ray(t_vec a, t_vec b);
-t_vec		ray_fctn(t_ray r, float t);
+t_vec		ray_fctn(t_ray *r, float t);
 t_ray		ft_ray_tracer(t_ptr *p, double x, double y);
 
 t_cam		cam_set(t_vec lookfrom, t_vec lookat, double fov);
 
-int			ft_hit_sphere(t_object *sphere, t_ray r, t_hit_record *rec);
 int			ft_hit(t_object *o, t_ray r, t_hit_record *rec, double m);
+int			ft_hit_sphere(t_object *sphere, t_ray *r, t_hit_record *rec);
+int			ft_hit_plan(t_object *o, t_ray *r, t_hit_record *rec);
+int			ft_hit_cylinder(t_object *o, t_ray *r, t_hit_record *rec);
+int			ft_hit_cone(t_object *o, t_ray *r, t_hit_record *rec);
 
 int			ft_close(t_ptr *p);
 int			ft_deal_key(int key, t_ptr *p);

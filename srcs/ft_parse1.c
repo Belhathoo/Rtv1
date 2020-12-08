@@ -80,11 +80,11 @@ void			ft_add_object(t_ptr *p, int fd, char **line, int t)
 		ft_fexit("object syntax - undefined object\n", 1, &p);
 	if (!ft_strcmp(*line, C_S) && (obj->hit = ft_hit_sphere))
 		obj->name = ft_strdup("SPHERE");
-	else if (!ft_strcmp(*line, C_CY) && (obj->hit = ft_hit_sphere))
+	else if (!ft_strcmp(*line, C_CY) && (obj->hit = ft_hit_cylinder))
 		obj->name = ft_strdup("CYLINDER");
-	else if (!ft_strcmp(*line, C_CO) && (obj->hit = ft_hit_sphere))
+	else if (!ft_strcmp(*line, C_CO) && (obj->hit = ft_hit_cone))
 		obj->name = ft_strdup("CONE");
-	else if (!ft_strcmp(*line, C_P) && (obj->hit = ft_hit_sphere))
+	else if (!ft_strcmp(*line, C_P) && (obj->hit = ft_hit_plan))
 		obj->name = ft_strdup("PLANE");
 	ft_get_object(p, obj, fd, line);
 	p->scene->obj = obj;
