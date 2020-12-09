@@ -88,5 +88,5 @@ void			kick_off(t_ptr *p)
 	}
 	while (--i >= 0)
 		pthread_join(thread[i], NULL);
-	mlx_put_image_to_window(p->mlx, p->win, p->img, 100, 200);
+	mlx_put_image_to_window(p->mlx, p->win, p->img, 0, 0);
 }
