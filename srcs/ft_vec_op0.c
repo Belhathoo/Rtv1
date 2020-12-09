@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
+/*   ft_vec_op0.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: belhatho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/02 01:44:37 by belhatho          #+#    #+#             */
-/*   Updated: 2020/12/02 01:44:47 by belhatho         ###   ########.fr       */
+/*   Created: 2020/12/09 02:02:47 by belhatho          #+#    #+#             */
+/*   Updated: 2020/12/09 02:03:00 by belhatho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void		ft_init(t_ptr *p)
+t_vec	ft_div(t_vec a, t_vec b)
 {
-	p->img = NULL;
-	p->mlx = NULL;
-	p->data = NULL;
-	p->win = NULL;
-   	p->bpp = malloc(4);
-	p->size = malloc(4);
-	p->endian = malloc(4);
+	return (ft_vec(a.e1 / b.e1, a.e2 / b.e2, a.e3 / b.e3));
 }
 
-void		ft_clamp(t_vec *c)
+t_vec	ft_div_k(t_vec a, double k)
 {
-	c->e1 = ft_clamping(c->e1);
-	c->e2 = ft_clamping(c->e2);
-	c->e3 = ft_clamping(c->e3);
+	return (ft_vec(a.e1 / k, a.e2 / k, a.e3 / k));
 }
 
-double			ft_clamping(double value)
+t_vec	ft_produit(t_vec a, t_vec b)
 {
-	if (value < 0.0)
-		value = 0.0;
-	if (value > 1.0)
-		value = 1.0;
-	return (value);
+	return (ft_vec(a.e1 * b.e1, a.e2 * b.e2, a.e3 * b.e3));
+}
+
+t_vec	ft_pro_k(t_vec a, double k)
+{
+	return (ft_vec(a.e1 * k, a.e2 * k, a.e3 * k));
 }

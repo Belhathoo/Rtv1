@@ -6,123 +6,74 @@
 /*   By: belhatho <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/02 01:52:44 by belhatho          #+#    #+#             */
-/*   Updated: 2020/12/02 01:52:52 by belhatho         ###   ########.fr       */
+/*   Updated: 2020/12/09 04:00:08 by belhatho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-/*
-OBJ: bool islit, double ambient(ka)
-LIT: float amb_intensity  float brightness
-*/
-double      ffmax(double a, double b)
-{
-    return ((a >= b) ? a : b);
-}
 t_vec		ft_reflect(t_vec v, t_vec n)
 {
 	return (ft_minus(v, ft_pro_k(ft_pro_k(n, 2), ft_dot(v, n))));
 }
 
-int     ft_shading(t_thread *th, t_light *l, t_vec lo)
+t_vec		ft_diffuse(t_thread *th, t_light *l, t_vec lo, double f_att)
 {
-    t_ray           sh_r;
-    t_hit_record    rec;    
-    t_object        *o;
-    double          closest;
+	double	d;
+	t_vec	diff;
 
-    o = th->p->scene->obj;
-    sh_r = ft_ray(th->rec.p, lo);
-    closest = ft_length(sh_r.dir);
-    sh_r.dir = ft_unit_vec(sh_r.dir);
-    while (o != NULL)
-    {
-        if (o != th->rec.curr_obj)
-            if (ft_hit(o, sh_r, &rec, closest))
-                return (1);
-        o = o->next;
-    }
-    return (0);
+	d = th->rec.curr_obj->kd * l->intensity;
+	d *= ffmax(0.0, ft_dot(ft_unit_vec(lo), th->rec.normal));
+	diff = ft_produit(th->rec.curr_obj->color, l->color);
+	diff = ft_pro_k(diff, d * f_att);
+	return (diff);
 }
 
-void   ft_ambient(_Bool i, t_thread *th, t_vec *col)
+t_vec		ft_specular(t_thread *th, t_light *l, t_vec lo, double f_att)
 {
-    th->p->scene->amb = 1.0;
-    th->rec.curr_obj->ka = 0.4; // --
-    
-    double  ia;
+	t_object	*o;
+	double		s;
+	t_vec		spec;
+	t_vec		refl;
 
-    ia = th->rec.curr_obj->ka * th->p->scene->amb;
-    if (i)
-        *col = ft_pro_k(th->rec.col, th->rec.curr_obj->ka);
-    else
-        *col = ft_pro_k(ft_produit(th->p->scene->light->color, th->rec.col), ia); //
-                
+	o = th->rec.curr_obj;
+	refl = ft_unit_vec((ft_reflect(ft_unit_vec(lo), th->rec.normal)));
+	s = pow(ffmax(0.0, ft_dot(refl,
+						ft_unit_vec(th->rec.ray->dir))), o->shininess);
+	s *= o->ks * l->intensity;
+	spec = ft_plus(o->color, l->color);
+	spec = ft_pro_k(spec, s);
+	return (spec);
 }
 
-void   ft_diffuse(t_thread *th, t_light *l, t_vec lo, double f_att, t_vec *diff)
+void		ft_phong(t_thread *th, t_light *l, t_vec lo, t_vec *d_s)
 {
-    double  d;
-    t_vec   c;
+	double f_att;
 
-    th->rec.curr_obj->kd = 0.6; // --
-    
-    d = th->rec.curr_obj->kd * l->intensity;
-    d *= ffmax(0.0, ft_dot(ft_unit_vec(lo), th->rec.normal));
-    c = ft_produit(th->rec.curr_obj->color, l->color);
-    c = ft_pro_k(c, d * f_att);
-    *diff = ft_plus(*diff, c);
+	f_att = ft_clamping(1 /
+			((ft_length(lo) + ft_length(th->rec.ray->dir)) * 0.02));
+	d_s[0] = ft_plus(d_s[0], ft_diffuse(th, l, lo, f_att));
+	d_s[1] = ft_plus(d_s[1], ft_specular(th, l, lo, f_att));
 }
 
-void   ft_specular(t_thread *th, t_light *l, t_vec lo, double  f_att, t_vec *spec)
+void		ft_lighting(t_thread *th, t_light *l, t_vec *c)
 {
-    double      s;
-    t_vec       oc;
-    t_vec       refl;
-    t_object    *o;
+	t_object	*o;
+	t_vec		l_vec;
+	t_vec		d_s[2];
+	int			shade;
 
-    o = th->rec.curr_obj;
-
-    o->shininess = 90; // --
-    o->ks = 1.0; // --
-    
-    refl = ft_unit_vec((ft_reflect(ft_unit_vec(lo), th->rec.normal)));
-    s = pow(ffmax(0.0, ft_dot(refl, ft_unit_vec(th->rec.ray->dir))), o->shininess);
-    s *= o->ks * l->intensity;
-    oc = ft_plus(th->rec.curr_obj->color, l->color);
-    oc = ft_pro_k(oc, s);
-    *spec = ft_plus(*spec, oc);
-}
-
-void    ft_phong(t_thread *th, t_light *l, t_vec lo, t_vec *d_s)
-{
-    double f_att = 1;
-
-    f_att = ft_clamping(1 /
-        ((ft_length(lo) + ft_length(th->rec.ray->dir)) * 0.02));
-    ft_diffuse(th, l, lo, f_att, &d_s[0]);
-    ft_specular(th, l, lo, f_att, &d_s[1]);
-}
-
-void    ft_lighting(t_thread *th, t_light *l, t_vec *c)
-{
-    t_object    *o;
-    t_vec       l_vec;
-    t_vec       d_s[2];
-    int         shade;
-
-    ft_ambient((l == NULL), th, c);
-    d_s[0] = ft_vec(0.0, 0.0, 0.0);
-    d_s[1] = ft_vec(0.0, 0.0, 0.0);
-    o = th->rec.curr_obj;
-    while (l != NULL)
-    {
-        l_vec = ft_minus(l->pos, th->rec.p);
-        shade = ft_shading(th, l, l_vec);
-        if (shade == 0)
-            ft_phong(th, l, l_vec, d_s);
-        l = l->next;
-    }
-    *c = ft_plus(*c, ft_plus(d_s[0], d_s[1]));
+	ft_ambient((l == NULL), th, c);
+	d_s[0] = ft_vec(0.0, 0.0, 0.0);
+	d_s[1] = ft_vec(0.0, 0.0, 0.0);
+	o = th->rec.curr_obj;
+	while (l != NULL)
+	{
+		l_vec = ft_minus(l->pos, th->rec.p);
+		shade = ft_shading(th, l, l_vec);
+		if (shade == 0)
+			ft_phong(th, l, l_vec, d_s);
+		l = l->next;
+	}
+	*c = ft_plus(*c, ft_plus(d_s[0], d_s[1]));
 }

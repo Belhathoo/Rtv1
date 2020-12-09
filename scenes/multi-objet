@@ -42,7 +42,7 @@
 		"position": "0.0 -1.5 -100.0"
 		"rotation": "0.0 1.0 0.0 0.0 z"
 		"translation": "0.0 0.0 0.0"
-		"color": "0.7 0.7 0.8"
+		"color": "1.0 0.3 1.0"
 		"size": "0.0"
 	}
 	"Object": "Plane"
@@ -58,7 +58,7 @@
 		"position": "0.0 1.5 -7.5"
 		"rotation": "0.0 0.0 1.0 0.0 z"
 		"translation": "0.0 0.0 0.0"
-		"color": "0.2 0.2 0.3"
+		"color": "0.0 0.0 0.3"
 		"size": "0.0"
 	}
 	"Object": "Sphere"
@@ -137,7 +137,7 @@
 	{
 		"position": "35 2.4 50"
 		"color": "1 1 1"
-		"intensity": "0.2"
+		"intensity": "1.0"
 	}
 	"Light":
 	{

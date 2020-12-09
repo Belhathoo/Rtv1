@@ -33,16 +33,22 @@ SRC +=  ft_nbr_size.c ft_word_size.c ft_nbr_words.c ft_atoi.c get_next_line.c
 
 OBJ = $(SRC:.c=.o)
 
+OK_COLOR=\x1b[32;01m
+NO_COLOR=\x1b[0m
+BUILD_PRINT = $(OK_COLOR)libft.a successfully compiles$(NO_COLOR)
+OK_STRING=$(OK_COLOR)[OK]$(NO_COLOR)
+
 FLAGS = -Wall -Werror -Wextra
 
 all: $(NAME)
-	@echo > /dev/null
+	
 
 $(NAME): $(OBJ)
-	@ar rc $(NAME) $(OBJ)
+	@ar rc $(NAME) $^
+	@echo "$(BUILD_PRINT)"
 
 %.o: %.c libft.h
-	@gcc $(CFLAG) -c $< -o $@
+	@echo "`gcc $(CFLAGS) -o $@ -c $< -I .`$< => $@ $(OK_STRING)"
 
 clean:
 	@rm -f $(OBJ)
