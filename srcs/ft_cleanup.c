@@ -14,13 +14,8 @@
 
 int				ft_fr(char **str)
 {
-	if (**str)
-	{
-		(*str) ? free(*str) : 0;
-		(str) ? ft_strdel(str) : 0;
-		return (1);
-	}
-	return (0);
+	(*str) ? ft_strdel(str) : 0;
+	return (1);
 }
 
 void			ft_free_objects(t_object *object)

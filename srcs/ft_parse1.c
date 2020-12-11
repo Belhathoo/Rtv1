@@ -39,7 +39,7 @@ void			ft_add_camera(t_ptr *p, int fd, char **line, int t)
 {
 	t_cam		cam;
 
-	(t > 0) ? ft_fexit("wrong camera number\n", 1, &p) : (t++);
+	(t > 0) ? ft_fexit("Wrong camera number\n", 1, &p) : 0;
 	if (ft_strcmp(*line, "\t\"Camera\":") && ft_fr(line))
 		ft_fexit("Camera syntax\n", 1, &p);
 	if (get_next_line(fd, line) > 0 && ft_strcmp(*line, "\t{") && ft_fr(line))
@@ -81,7 +81,7 @@ void			ft_get_object(t_ptr *p, t_object *obj, int fd, char **line)
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"color\": \""
 				, 12) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 4th param color\n", 1, &p);
-	obj->color = ft_linetocol(p, line, 1);
+	obj->color = ft_linetovec(p, line, 1);
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"size\": \""
 				, 11) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 5th param size\n", 1, &p);
@@ -110,6 +110,7 @@ void			ft_add_object(t_ptr *p, int fd, char **line, int t)
 	else if (!ft_strcmp(*line, C_P) && (obj->hit = ft_hit_plan))
 		obj->name = ft_strdup("PLANE");
 	ft_get_object(p, obj, fd, line);
+	ft_set_coef(obj);
 	p->scene->obj = obj;
 	obj->next = tmp;
 }
@@ -132,7 +133,7 @@ void			ft_add_light(t_ptr *p, int fd, char **line)
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"color\": \""
 			, 12) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Light syntax - 2nd param color\n", 1, &p);
-	light[0]->color = ft_linetocol(p, line, 1);
+	light[0]->color = ft_linetovec(p, line, 1);
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line,
 		"\t\t\"intensity\": \"", 16) || line[0][ft_strlen(*line) - 1] != '"'))
 		ft_fexit("Light syntax - 3d param intensity\n", 1, &p);

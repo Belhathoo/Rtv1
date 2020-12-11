@@ -22,15 +22,12 @@ void			ft_set_coef(t_object *o)
 
 int				ft_hit(t_object *o, t_ray r, t_record *rec, double tmax)
 {
-	t_record	tmp_rec;
 	int			hit_anything;
-	double		closest;
 
 	hit_anything = 0;
 	rec->closest = tmax;
 	while (o)
 	{
-		ft_set_coef(o);
 		if (o->hit(o, &r, rec))
 		{
 			hit_anything = 1;

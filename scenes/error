@@ -1,4 +1,10 @@
 [
+	"Camera":
+	{
+		"lookfrom": "-5.0 5.0 -5.0"
+		"loo kat": "0.0 0.0 0.0"
+		"fov": "90.0"
+	}
 	"Object": "Cylinder"
 	{
 		"position": "3.1 0.55 -1.9"

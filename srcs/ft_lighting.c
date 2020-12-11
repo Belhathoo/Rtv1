@@ -42,7 +42,7 @@ t_vec		ft_specular(t_thread *th, t_light *l, t_vec lo, double f_att)
 						ft_unit_vec(th->rec.ray->dir))), o->shininess);
 	s *= o->ks * l->intensity;
 	spec = ft_plus(o->color, l->color);
-	spec = ft_pro_k(spec, s);
+	spec = ft_pro_k(spec, s * f_att);
 	return (spec);
 }
 
@@ -63,14 +63,14 @@ void		ft_lighting(t_thread *th, t_light *l, t_vec *c)
 	t_vec		d_s[2];
 	int			shade;
 
-	ft_ambient((l == NULL), th, c);
+	ft_ambient(l, th, c);
 	d_s[0] = ft_vec(0.0, 0.0, 0.0);
 	d_s[1] = ft_vec(0.0, 0.0, 0.0);
 	o = th->rec.curr_obj;
 	while (l != NULL)
 	{
 		l_vec = ft_minus(l->pos, th->rec.p);
-		shade = ft_shading(th, l, l_vec);
+		shade = ft_shading(th, l_vec);
 		if (shade == 0)
 			ft_phong(th, l, l_vec, d_s);
 		l = l->next;

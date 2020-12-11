@@ -22,7 +22,7 @@ void		ft_init(t_ptr *p)
 	p->size = malloc(4);
 	p->endian = malloc(4);
 	p->scene->anti_a = 2;
-	p->scene->amb = 1.0;
+	p->scene->amb = 0.85;
 }
 
 void		ft_mlx_launch(t_ptr *p)
@@ -43,7 +43,7 @@ int			main(int argc, char **argv)
 	if (argc == 2)
 		ft_parser(argv[1], p);
 	else
-		ft_fexit("usage: ./rtv1 scene_file\n", 0, &p);
+		ft_fexit("usage: ./rtv1: 1_scene_file\n", 0, &p);
 	ft_mlx_launch(p);
 	kick_off(p);
 	mlx_hook(p->win, 17, 0, ft_close, p);

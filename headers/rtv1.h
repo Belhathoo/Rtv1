@@ -23,8 +23,8 @@
 
 # include <stdio.h>
 
-# define IMG_WIDTH  1000
-# define IMG_HEIGHT 500
+# define IMG_WIDTH  1200
+# define IMG_HEIGHT 600
 
 # define NBTHREAD 4
 # define TMIN 0.00001
@@ -56,10 +56,10 @@ typedef	struct		s_obj
 	t_vec			color;
 	double			size;
 	int				(*hit)();
-	double			shininess;
 	double			ka;
 	double			kd;
 	double			ks;
+	double			shininess;
 	struct s_obj	*next;
 }					t_object;
 
@@ -82,8 +82,6 @@ typedef	struct		s_l
 {
 	t_vec			pos;
 	t_vec			color;
-	t_vec			l_vec;
-	double			f_att;
 	double			intensity;
 	struct s_l		*next;
 }					t_light;
@@ -137,9 +135,10 @@ void				*ft_draw(t_thread *thread);
 
 int					ft_anti_a(t_thread *th, double i, double j);
 t_vec				ft_calcul(t_thread *t, t_ray ray);
-int					ft_shading(t_thread *th, t_light *l, t_vec lo);
+int					ft_shading(t_thread *th, t_vec lo);
 void				ft_lighting(t_thread *th, t_light *l, t_vec *col);
-void				ft_ambient(_Bool i, t_thread *th, t_vec *col);
+void				ft_ambient(t_light *l, t_thread *th, t_vec *col);
+void				ft_set_coef(t_object *o);
 
 int					ft_hit(t_object *o, t_ray r, t_record *rec, double m);
 int					ft_hit_sphere(t_object *sphere, t_ray *r, t_record *rec);

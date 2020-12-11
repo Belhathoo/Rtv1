@@ -3,7 +3,7 @@
 	{
 		"lookfrom": "0.0 0.0 10.0"
 		"lookat": "0.0 0.0 0.0"
-		"fov": "20.0"
+		"fov": "50.0"
 	}
 	"Object": "Cone"
 	{
@@ -11,7 +11,7 @@
 		"rotation": "0.0 1.0 0.0 0.0 z"
 		"translation": "0.0 0.0 0.0"
 		"color": "1.0 0.7 0.3"
-		"size": "2.0"
+		"size": "60.0"
 	}
 	"Light":
 	{

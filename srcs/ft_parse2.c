@@ -80,33 +80,8 @@ t_vec		ft_linetovec(t_ptr *p, char **line, int free_it)
 	if (free_it)
 		free(*line);
 	if (ft_twodimlen(each) != 3)
-		ft_fexit("must be three values for Vectors data\n", 1, &p);
-	ret.e1 = ft_atod(each[0]);
-	ret.e2 = ft_atod(each[1]);
-	ret.e3 = ft_atod(each[2]);
-	ft_free_twodim(each);
-	return (ret);
-}
-
-t_vec		ft_linetocol(t_ptr *p, char **line, int free_it)
-{
-	t_vec		ret;
-	char		**each;
-	char		*str;
-
-	str = *line;
-	while (*str && *str != ':')
-		str++;
-	while (*str && *str != '"')
-		str++;
-	str++;
-	str = ft_strsub(str, 0, ft_strlen(str) - 1);
-	each = ft_strsplit(str, ' ');
-	free(str);
-	if (free_it)
-		free(*line);
-	if (ft_twodimlen(each) != 3)
-		ft_fexit("Must be three values for Colors data\n", 1, &p);
+		ft_fexit("must be three values for Vectors data \
+					(pos|trans|color).\n", 1, &p);
 	ret.e1 = ft_atod(each[0]);
 	ret.e2 = ft_atod(each[1]);
 	ret.e3 = ft_atod(each[2]);

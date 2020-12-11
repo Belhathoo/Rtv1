@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-int				ft_shading(t_thread *th, t_light *l, t_vec lo)
+int				ft_shading(t_thread *th, t_vec lo)
 {
 	t_ray		sh_r;
 	t_record	rec;
@@ -33,14 +33,14 @@ int				ft_shading(t_thread *th, t_light *l, t_vec lo)
 	return (0);
 }
 
-void			ft_ambient(_Bool i, t_thread *th, t_vec *col)
+void			ft_ambient(t_light *l, t_thread *th, t_vec *col)
 {
 	t_object	*o;
 	double		ia;
 
 	o = th->rec.curr_obj;
 	ia = o->ka * th->p->scene->amb;
-	if (i)
+	if (!l)
 		*col = ft_pro_k(o->color, o->ka);
 	else
 		*col = ft_pro_k(ft_produit(th->p->scene->light->color, o->color), ia);
