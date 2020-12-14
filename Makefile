@@ -44,6 +44,8 @@ LIBFT = ./libft/ -lft
 THREAD = -lpthread
 MYFLAG =  $(MLX)  $(THREAD) -L $(LIBFT)
 
+.PHONY: all, clean, fclean, re
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
@@ -69,4 +71,3 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re

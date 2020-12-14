@@ -21,7 +21,7 @@ void		ft_init(t_ptr *p)
 	p->bpp = malloc(4);
 	p->size = malloc(4);
 	p->endian = malloc(4);
-	p->scene->anti_a = 2;
+	p->scene->anti_a = 3;
 	p->scene->amb = 0.85;
 }
 

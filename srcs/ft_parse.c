@@ -20,10 +20,13 @@ char			*get_full_text(const int fd)
 	int			sum;
 
 	sum = 0;
-	text = (char*)malloc(BUFF_SIZE + 1);
+	if (!(text = (char*)malloc(BUFF_SIZE + 1)))
+		return (NULL);
 	while ((ret = read(fd, &text[sum], BUFF_SIZE)))
 	{
 		sum += ret;
+		if (text[0] != '[')
+			return (NULL);
 		text[sum] = '\0';
 		tmp = ft_strdup(text);
 		free(text);
@@ -120,15 +123,18 @@ void			ft_parser(char *file, t_ptr *p)
 	int			check;
 	char		*txt;
 
+	txt = NULL;
 	fd = open(file, O_RDONLY, !O_DIRECTORY);
 	if ((fd = open(file, O_RDONLY)) == -1)
 		ft_fexit(ft_strjoin(file, " : No Such File\n"), 1, &p);
 	if (open(file, O_DIRECTORY) != -1)
 		ft_fexit(ft_strjoin(file, " : Must Be a File\n"), 1, &p);
-	txt = get_full_text(fd);
 	close(fd);
+	fd = open(file, O_RDONLY);
+	if (!(txt = get_full_text(fd)) && ft_fr(&txt))
+		ft_fexit("Syntax!\n", 1, &p);
 	check = ft_check_brackets(txt);
-	free(txt);
+	ft_fr(&txt);
 	if (check < 2)
 		ft_fexit("Brackets!\n", 1, &p);
 	fd = open(file, O_RDONLY);

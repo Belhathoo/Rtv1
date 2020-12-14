@@ -38,7 +38,9 @@ NO_COLOR=\x1b[0m
 BUILD_PRINT = $(OK_COLOR)libft.a successfully compiles$(NO_COLOR)
 OK_STRING=$(OK_COLOR)[OK]$(NO_COLOR)
 
-FLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
+
+.PHONY: all clean fclean re
 
 all: $(NAME)
 	
@@ -58,4 +60,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+
