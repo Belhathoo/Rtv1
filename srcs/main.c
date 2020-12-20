@@ -46,15 +46,17 @@ void			add_camera(t_ptr *p, char **blc, int nb)
 		while (blc[i][j] == ' ' || blc[i][j] == '\t')
 			j++;
 		if (i == 2 && ft_strncmp(blc[i] + j, "\"lookfrom\":", 11))
-			ft_fexit("Camera syntax - lookfrom\n", 1, p);
-		cam.origin = ft_linetovec(p, blc[2]);
+				ft_fexit("Camera syntax - lookfrom\n", 1, p);
 		if (i == 3 && ft_strncmp(blc[i] + j, "\"lookat\":", 9))
 			ft_fexit("Camera syntax - lookat\n", 1, p);
 		if (i == 4 && ft_strncmp(blc[i] + j, "\"fov\":", 6))
-			ft_fexit("Camera syntax - fov\n", 1, p);
+				ft_fexit("Camera syntax - fov\n", 1, p);
 		i++;
 	}
-
+	if (!ft_linetovec(p, blc[2], &cam.origin) || !ft_linetovec(p, blc[3], &cam.lookat))
+		ft_fexit("Camera: Vector Syntax\n", 1, p);
+	if (!ft_linetod(p, blc[4], &cam.fov))
+		ft_fexit("Camera: Fov Syntax\n", 1, p);
 	p->scene->camera = ft_cam_set(cam.origin, cam.lookat, cam.fov);
 }
 

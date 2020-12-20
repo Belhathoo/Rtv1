@@ -181,9 +181,9 @@ void				ft_add_light(t_ptr *p, int fd, char **line);
 t_cam				ft_cam_set(t_vec lookfrom, t_vec lookat, double fov);
 
 void				ft_do_rot(t_ptr *p, t_vec *ret, char **each);
-t_vec				ft_linetorot(t_ptr *p, char *line);
-t_vec				ft_linetovec(t_ptr *p, char *line);
-double				ft_linetod(t_ptr *p, char *line);
+int					ft_linetorot(t_ptr *p, char *line, t_vec *rot);
+int					ft_linetovec(t_ptr *p, char *line, t_vec *vec);
+int					ft_linetod(t_ptr *p, char *line, double *d);
 
 t_vec				ft_rot_x(t_vec old, double theta);
 t_vec				ft_rot_y(t_vec old, double theta);

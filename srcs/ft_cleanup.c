@@ -50,7 +50,7 @@ void			ft_free_lights(t_light *light)
 
 void			ft_fexit(char *msg, int err, t_ptr *p)
 {
-	ft_putstr(ft_strjoin(err ? "Err.: " : "", msg));
+	ft_putstr(ft_strjoin(err ? "Error: " : "", msg));
 	if (p->scene)
 	{
 		ft_free_objects(p->scene->obj);

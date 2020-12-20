@@ -124,7 +124,7 @@ void			ft_parser(char *file, t_ptr *p)
 	int			check;
 	char		*txt = NULL;
 
-
+	p->scene = NULL;
 	fd = open(file, O_RDONLY);
 	if (fd == -1 || read(fd, txt, 0))
 	{
