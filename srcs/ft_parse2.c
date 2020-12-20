@@ -21,7 +21,7 @@ void		ft_do_rot(t_ptr *p, t_vec *ret, char **each)
 		|| ((each[4][0] != 'x') && (each[4][0] != 'y') && (each[4][0] != 'z')))
 	{
 		ft_free_twodim(each);
-		ft_fexit("Wrong rotation angle detected or axes type\n", 1, &p);
+		ft_fexit("Wrong rotation angle detected or axes type\n", 1, p);
 	}
 	ret->e1 = ft_atod(each[0]);
 	ret->e2 = ft_atod(each[1]);
@@ -38,7 +38,7 @@ void		ft_do_rot(t_ptr *p, t_vec *ret, char **each)
 	}
 }
 
-t_vec		ft_linetorot(t_ptr *p, char **line, int free_it)
+t_vec		ft_linetorot(t_ptr *p, char *line)
 {
 	t_vec		ret;
 	char		**each;
@@ -53,22 +53,20 @@ t_vec		ft_linetorot(t_ptr *p, char **line, int free_it)
 	str = ft_strsub(str, 0, ft_strlen(str) - 1);
 	each = ft_strsplit(str, ' ');
 	free(str);
-	if (free_it)
-		free(*line);
 	if (ft_twodimlen(each) != 5)
-		ft_fexit("Must be five values for Rotation Data\n", 1, &p);
+		ft_fexit("Must be five values for Rotation Data\n", 1, p);
 	ft_do_rot(p, &ret, each);
 	ft_free_twodim(each);
 	return (ret);
 }
 
-t_vec		ft_linetovec(t_ptr *p, char **line, int free_it)
+t_vec		ft_linetovec(t_ptr *p, char *line)
 {
 	t_vec		ret;
 	char		**each;
 	char		*str;
 
-	str = *line;
+	str = line;
 	while (*str && *str != ':')
 		str++;
 	while (*str && *str != '"')
@@ -77,11 +75,9 @@ t_vec		ft_linetovec(t_ptr *p, char **line, int free_it)
 	str = ft_strsub(str, 0, ft_strlen(str) - 1);
 	each = ft_strsplit(str, ' ');
 	free(str);
-	if (free_it)
-		free(*line);
 	if (ft_twodimlen(each) != 3)
 		ft_fexit("must be three values for Vectors data \
-					(pos|trans|color).\n", 1, &p);
+					(pos|trans|color).\n", 1, p);
 	ret.e1 = ft_atod(each[0]);
 	ret.e2 = ft_atod(each[1]);
 	ret.e3 = ft_atod(each[2]);
@@ -89,7 +85,7 @@ t_vec		ft_linetovec(t_ptr *p, char **line, int free_it)
 	return (ret);
 }
 
-double		ft_linetod(t_ptr *p, char **line, int free_it)
+double		ft_linetod(t_ptr *p, char *line)
 {
 	double		ret;
 	char		**each;
@@ -104,10 +100,8 @@ double		ft_linetod(t_ptr *p, char **line, int free_it)
 	str = ft_strsub(str, 0, ft_strlen(str) - 1);
 	each = ft_strsplit(str, ' ');
 	free(str);
-	if (free_it)
-		free(*line);
 	if (ft_twodimlen(each) != 1)
-		ft_fexit("must be one value for such data\n", 1, &p);
+		ft_fexit("must be one value for such data\n", 1, p);
 	ret = ft_atod(each[0]);
 	ft_free_twodim(each);
 	return (ret);

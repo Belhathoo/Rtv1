@@ -70,8 +70,7 @@ void		ft_lighting(t_thread *th, t_light *l, t_vec *c)
 	while (l != NULL)
 	{
 		l_vec = ft_minus(l->pos, th->rec.p);
-		shade = ft_shading(th, l_vec);
-		if (shade == 0)
+		if ((shade = ft_shading(th, l_vec)) == 0)
 			ft_phong(th, l, l_vec, d_s);
 		l = l->next;
 	}

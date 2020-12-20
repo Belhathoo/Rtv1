@@ -37,7 +37,7 @@ int				ft_anti_a(t_thread *th, double i, double j)
 
 	col = ft_vec(0, 0, 0);
 	ss[0] = -1;
-	anti_a = th->p->scene->anti_a;
+	anti_a = (th->p->scene->anti_a > 0) ? th->p->scene->anti_a : 0;
 	while (++ss[0] < anti_a)
 	{
 		ss[1] = -1;
