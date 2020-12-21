@@ -87,7 +87,8 @@ int			ft_hit_cone(t_object *o, t_ray *r, t_record *rec)
 		return (0);
 	rec->sol[0] = (-rec->coef[1] - sqrt(rec->delta)) / (2 * rec->coef[0]);
 	rec->sol[1] = (-rec->coef[1] + sqrt(rec->delta)) / (2 * rec->coef[0]);
-	rec->sol[0] = rec->sol[0] < rec->sol[1] ? rec->sol[0] : rec->sol[1];
+	rec->sol[0] = (rec->sol[0] > TMIN && rec->sol[0] < rec->sol[1]) ?
+					rec->sol[0] : rec->sol[1];
 	if (rec->sol[0] < rec->closest && rec->sol[0] > TMIN)
 	{
 		rec->t = rec->sol[0];

@@ -86,6 +86,7 @@ void			ft_get_object(t_ptr *p, t_object *obj, int fd, char **line)
 				, 11) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 5th param size\n", 1, &p);
 	obj->size = ft_linetod(p, line, 1);
+	obj->size *= (ft_strcmp(obj->name, "CONE")) ? 1 : M_PI / 180 / 2;
 	if (get_next_line(fd, line) > 0 && ft_strcmp(*line, "\t}") && ft_fr(line))
 		ft_fexit("Object syntax - near to }\n", 1, &p);
 }

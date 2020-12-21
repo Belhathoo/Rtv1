@@ -128,7 +128,7 @@ void			ft_parser(char *file, t_ptr *p)
 	if (fd == -1 || read(fd, txt, 0) == -1)
 	{
 		(fd != -1) ? close(fd) : 0;
-		perror(ft_strjoin("Err. ",file));
+		perror(ft_strjoin("Err. ", file));
 		ft_fexit(0, 0, &p);
 	}
 	if (!(txt = get_full_text(fd)) && ft_fr(&txt))
