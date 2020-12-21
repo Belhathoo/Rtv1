@@ -16,7 +16,7 @@ int			ft_close(t_ptr *p)
 {
 	mlx_destroy_image(p->mlx, p->img);
 	mlx_destroy_window(p->mlx, p->win);
-	ft_fexit(0, 0, p);
+	ft_fexit(0, 0, &p);
 	return (0);
 }
 

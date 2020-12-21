@@ -1,8 +1,8 @@
 [
-	"Camera":
+
 	{
 		"lookfrom": "-5.0 5.0 -5.0"
-		"loo kat": "0.0 0.0 0.0"
+		"lookat": "0.0 0.0 0.0"
 		"fov": "90.0"
 	}
 	"Object": "Cylinder"

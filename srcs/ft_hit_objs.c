@@ -28,8 +28,7 @@ int			ft_hit_sphere(t_object *sphere, t_ray *r, t_record *rec)
 		{
 			rec->t = rec->sol[0];
 			rec->p = ray_fctn(r, rec->t);
-			rec->normal = ft_unit_vec(ft_div_k(ft_minus(rec->p, sphere->pos),
-				sphere->size));
+			rec->normal = ft_div_k(ft_minus(rec->p, sphere->pos), sphere->size);
 			return (1);
 		}
 	}

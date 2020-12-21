@@ -27,7 +27,7 @@
 # define IMG_HEIGHT 600
 
 # define NBTHREAD 4
-# define TMIN 0.0001
+# define TMIN 0.00001
 # define MLX_KEY_ESC 53
 
 # define C_S "\t\"Object\": \"Sphere\""
@@ -129,11 +129,6 @@ typedef struct		s_thread
 	t_record		rec;
 }					t_thread;
 
-
-// MAkefile FLAGS!!!!!!
-void			get_data(t_ptr *p, char *txt);
-
-
 void				ft_init(t_ptr *p);
 void				kick_off(t_ptr *p);
 void				*ft_draw(t_thread *thread);
@@ -181,9 +176,10 @@ void				ft_add_light(t_ptr *p, int fd, char **line);
 t_cam				ft_cam_set(t_vec lookfrom, t_vec lookat, double fov);
 
 void				ft_do_rot(t_ptr *p, t_vec *ret, char **each);
-int					ft_linetorot(t_ptr *p, char *line, t_vec *rot);
-int					ft_linetovec(t_ptr *p, char *line, t_vec *vec);
-int					ft_linetod(t_ptr *p, char *line, double *d);
+t_vec				ft_linetorot(t_ptr *p, char **line, int free_it);
+t_vec				ft_linetovec(t_ptr *p, char **line, int free_it);
+t_vec				ft_linetocol(t_ptr *p, char **line, int free_it);
+double				ft_linetod(t_ptr *p, char **line, int free_it);
 
 t_vec				ft_rot_x(t_vec old, double theta);
 t_vec				ft_rot_y(t_vec old, double theta);
@@ -197,6 +193,6 @@ int					ft_close(t_ptr *p);
 int					ft_deal_key(int key, t_ptr *p);
 int					ft_fr(char **str);
 void				ft_free_objects(t_object *o);
-void				ft_fexit(char *msg, int er, t_ptr *p);
+void				ft_fexit(char *msg, int er, t_ptr **p);
 
 #endif

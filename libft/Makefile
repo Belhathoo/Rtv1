@@ -40,8 +40,6 @@ OK_STRING=$(OK_COLOR)[OK]$(NO_COLOR)
 
 CFLAGS = -Wall -Werror -Wextra
 
-.PHONY: all clean fclean re
-
 all: $(NAME)
 	
 
@@ -60,4 +58,4 @@ fclean: clean
 
 re: fclean all
 
-
+.PHONY: all clean fclean re

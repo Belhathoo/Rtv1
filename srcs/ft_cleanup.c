@@ -30,7 +30,6 @@ void			ft_free_objects(t_object *object)
 		free(obj);
 		obj = tmp;
 	}
-	object = NULL;
 }
 
 void			ft_free_lights(t_light *light)
@@ -45,18 +44,17 @@ void			ft_free_lights(t_light *light)
 		free(l);
 		l = tmp;
 	}
-	light = NULL;
 }
 
-void			ft_fexit(char *msg, int err, t_ptr *p)
+void			ft_fexit(char *msg, int err, t_ptr **p)
 {
-	ft_putstr(ft_strjoin(err ? "Error: " : "", msg));
-	if (p->scene)
+	ft_putstr(ft_strjoin(err ? "error: " : "", msg));
+	if ((*p)->scene)
 	{
-		ft_free_objects(p->scene->obj);
-		ft_free_lights(p->scene->light);
-		free(p->scene);
-		p->scene = NULL;
+		ft_free_objects((*p)->scene->obj);
+		ft_free_lights((*p)->scene->light);
+		free((*p)->scene);
 	}
+	free(*p);
 	exit(0);
 }
