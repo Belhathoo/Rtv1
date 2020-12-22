@@ -71,12 +71,12 @@ void			ft_get_data(t_ptr *p, int fd)
 	static int		obj_nbr = 0;
 	char			*line;
 
-	get_next_line(fd, &line);
 	if (!(p->scene = (struct s_scene*)malloc(sizeof(struct s_scene))))
 		ft_fexit("Cannot allocate\n", 1, &p);
 	p->scene->obj = NULL;
 	p->scene->light = NULL;
-	while (get_next_line(fd, &line) > 0)
+	get_next_line(fd, &line);
+	while (ft_fr(&line) && get_next_line(fd, &line) > 0)
 	{
 		if (!ft_strncmp(line, "\t\"Camera\":", 10))
 			ft_add_camera(p, fd, &line, cam_nbr++);
@@ -112,6 +112,7 @@ void			ft_check_data(t_ptr *p)
 		if ((c[0] < 0.0 || c[0] > 1.0) || (c[1] < 0.0 || c[1] > 1.0)
 				|| (c[2] < 0.0 || c[2] > 1.0))
 			ft_fexit("Wrong color format detected; [0-1]\n", 1, &p);
+		tmp->size *= (ft_strcmp(tmp->name, "CONE")) ? 1 : M_PI / 180 / 2;
 		tmp = tmp->next;
 	}
 }
@@ -128,7 +129,8 @@ void			ft_parser(char *file, t_ptr *p)
 	if (fd == -1 || read(fd, txt, 0) == -1)
 	{
 		(fd != -1) ? close(fd) : 0;
-		perror(ft_strjoin("Err. ", file));
+		ft_putstr("Error: ");
+		perror(file);
 		ft_fexit(0, 0, &p);
 	}
 	if (!(txt = get_full_text(fd)) && ft_fr(&txt))

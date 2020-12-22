@@ -39,7 +39,7 @@ void			ft_add_camera(t_ptr *p, int fd, char **line, int t)
 {
 	t_cam		cam;
 
-	(t > 0) ? ft_fexit("Wrong camera number\n", 1, &p) : 0;
+	(t > 0 && ft_fr(line)) ? ft_fexit("Wrong camera number\n", 1, &p) : 0;
 	if (ft_strcmp(*line, "\t\"Camera\":") && ft_fr(line))
 		ft_fexit("Camera syntax\n", 1, &p);
 	if (get_next_line(fd, line) > 0 && ft_strcmp(*line, "\t{") && ft_fr(line))
@@ -74,8 +74,8 @@ void			ft_get_object(t_ptr *p, t_object *obj, int fd, char **line)
 		ft_fexit("Object syntax - 2nd param rotation\n", 1, &p);
 	obj->rot = ft_unit_vec(ft_linetorot(p, line, 1));
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line,
-						"\t\t\"translation\": \"", 18) ||
-						line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
+					"\t\t\"translation\": \"", 18) ||
+				line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 3rd param translation\n", 1, &p);
 	obj->pos = ft_plus(obj->pos, ft_linetovec(p, line, 1));
 	if (get_next_line(fd, line) > 0 && (ft_strncmp(*line, "\t\t\"color\": \""
@@ -86,7 +86,6 @@ void			ft_get_object(t_ptr *p, t_object *obj, int fd, char **line)
 				, 11) || line[0][ft_strlen(*line) - 1] != '"') && ft_fr(line))
 		ft_fexit("Object syntax - 5th param size\n", 1, &p);
 	obj->size = ft_linetod(p, line, 1);
-	obj->size *= (ft_strcmp(obj->name, "CONE")) ? 1 : M_PI / 180 / 2;
 	if (get_next_line(fd, line) > 0 && ft_strcmp(*line, "\t}") && ft_fr(line))
 		ft_fexit("Object syntax - near to }\n", 1, &p);
 }
@@ -96,7 +95,8 @@ void			ft_add_object(t_ptr *p, int fd, char **line, int t)
 	t_object		*obj;
 	t_object		*tmp;
 
-	if (!(obj = (struct s_obj*)malloc(sizeof(struct s_obj))) && t < 0)
+	if (!(obj = (struct s_obj*)malloc(sizeof(struct s_obj)))
+								&& t < 0 && ft_fr(line))
 		ft_fexit("Cannot allocate\n", 1, &p);
 	tmp = p->scene->obj;
 	if (ft_strcmp(*line, C_S) && ft_strcmp(*line, C_CO) && ft_strcmp(*line, C_P)
@@ -120,7 +120,7 @@ void			ft_add_light(t_ptr *p, int fd, char **line)
 {
 	t_light			*light[2];
 
-	if (!(light[0] = (struct s_l*)malloc(sizeof(struct s_l))))
+	if (!(light[0] = (struct s_l*)malloc(sizeof(struct s_l))) && ft_fr(line))
 		ft_fexit("Cannot allocate\n", 1, &p);
 	light[1] = p->scene->light;
 	if (ft_strcmp(*line, "\t\"Light\":") && ft_fr(line))

@@ -1,13 +1,13 @@
 [
 	"Camera":
 	{
-		"lookfrom": "0.0 30.0 150.0"
+		"lookfrom": "0.0 50.0 120.0"
 		"lookat": "0.0 0.0 0.0"
 		"fov": "60.0"
 	}
 	"Object": "Plane"
 	{
-		"position": "0.0 10.0 0.0"
+		"position": "0.0 0.0 0.0"
 		"rotation": "0.0 1.0 0.0 0.0 y"
 		"translation": "0.0 0.0 0.0"
 		"color": "0.1 0.9 0.8"
@@ -15,7 +15,7 @@
 	}
 	"Light":
 	{
-		"position": "0 0 100"
+		"position": "0 50 50"
 		"color": "1 1 1"
 		"intensity": "0.5"
 	}

@@ -35,7 +35,8 @@ OBJ = $(SRC:.c=.o)
 
 OK_COLOR=\x1b[32;01m
 NO_COLOR=\x1b[0m
-BUILD_PRINT = $(OK_COLOR)libft.a successfully compiles$(NO_COLOR)
+
+BUILD_PRINT = libft.a successfully compiles
 OK_STRING=$(OK_COLOR)[OK]$(NO_COLOR)
 
 CFLAGS = -Wall -Werror -Wextra

@@ -17,8 +17,8 @@ void		ft_do_rot(t_ptr *p, t_vec *ret, char **each)
 	double		theta;
 
 	theta = ft_atod(each[3]);
-	if (theta < -180.0 || theta > 180.0 || ft_strlen(each[4]) != 1
-		|| ((each[4][0] != 'x') && (each[4][0] != 'y') && (each[4][0] != 'z')))
+	if (theta < -180.0 || theta > 180.0 ||
+		((each[4][0] != 'x') && (each[4][0] != 'y') && (each[4][0] != 'z')))
 	{
 		ft_free_twodim(each);
 		ft_fexit("Wrong rotation angle detected or axes type\n", 1, &p);
@@ -43,6 +43,7 @@ t_vec		ft_linetorot(t_ptr *p, char **line, int free_it)
 	t_vec		ret;
 	char		**each;
 	char		*str;
+	int			l;
 
 	str = *line;
 	while (*str && *str != ':')
@@ -50,13 +51,13 @@ t_vec		ft_linetorot(t_ptr *p, char **line, int free_it)
 	while (*str && *str != '"')
 		str++;
 	str++;
-	str = ft_strsub(str, 0, ft_strlen(str) - 1);
 	each = ft_strsplit(str, ' ');
-	free(str);
 	if (free_it)
 		free(*line);
-	if (ft_twodimlen(each) != 5)
-		ft_fexit("Must be five values for Rotation Data\n", 1, &p);
+	l = ft_twodimlen(each);
+	if ((l < 5 || l > 6) || (l == 5 && (each[4][0] == '\"'
+	|| !ft_strchr(each[4], '\"'))) || (l == 6 && each[5][0] != '\"'))
+		ft_fexit("must be five values for Rotation Data\n", 1, &p);
 	ft_do_rot(p, &ret, each);
 	ft_free_twodim(each);
 	return (ret);
